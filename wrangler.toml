@@ -1,0 +1,16 @@
+name = "task.smallkirby.xyz"
+type = "javascript"
+
+route = ""
+workers_dev = true
+compatibility_date = "2022-07-10"
+
+[site]
+  bucket = "./public"
+  entry-point = "."
+
+[build]
+  command = "npm run build"
+
+[build.upload]
+  format="service-worker"
