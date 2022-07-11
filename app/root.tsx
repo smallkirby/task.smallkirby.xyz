@@ -1,4 +1,4 @@
-import type { LoaderFunction, MetaFunction } from '@remix-run/cloudflare';
+import type { LoaderFunction, MetaFunction, LinksFunction } from '@remix-run/cloudflare';
 import { json } from '@remix-run/cloudflare';
 import {
   Links,
@@ -10,7 +10,16 @@ import {
   useLoaderData,
 } from '@remix-run/react';
 import type { GlobalConfig } from '../typings/config';
-import { initFirebase } from './lib/firebase';
+import { useEffect } from 'react';
+import { initFirebaseBrowserOnly } from './lib/firebase';
+import { watchUserLoginState } from './lib/session';
+import Header from '~/components/common/Header';
+// @ts-ignore
+import styles from './styles/index.css';
+
+export const links: LinksFunction = () => {
+  return [{ rel: 'stylesheet', href: styles }];
+};
 
 export const loader: LoaderFunction = () => {
   const firebaseConfig = {
@@ -39,7 +48,11 @@ export const meta: MetaFunction = () => ({
 
 export default function App() {
   const config = useLoaderData<GlobalConfig>();
-  initFirebase(config.firebase, config.NODE_ENV);
+  initFirebaseBrowserOnly(config.firebase, config.NODE_ENV);
+
+  useEffect(() => {
+    watchUserLoginState();
+  }, []);
 
   return (
     <html lang="en">
@@ -47,8 +60,11 @@ export default function App() {
         <Meta />
         <Links />
       </head>
-      <body>
-        <Outlet />
+      <body className='bg-skblack'>
+        <Header />
+        <div className='mt-16 w-2/3 mx-auto'>
+          <Outlet/>
+        </div>
         <ScrollRestoration />
         <Scripts />
         <LiveReload />

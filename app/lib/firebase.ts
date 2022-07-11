@@ -7,6 +7,7 @@ import { connectFunctionsEmulator, getFunctions } from 'firebase/functions';
 import { connectAuthEmulator, getAuth } from 'firebase/auth';
 import { connectFirestoreEmulator, getFirestore } from 'firebase/firestore';
 
+let initialized = false;
 let functions: Functions | null = null;
 let auth: Auth | null = null;
 let firestore: Firestore | null = null;
@@ -33,7 +34,11 @@ export function getProjectFirestore(): Firestore | null {
 }
 
 
-export function initFirebase(config: FirebaseOptions, NODE_ENV: string): FirebaseApp {
+function initFirebase(config: FirebaseOptions, NODE_ENV: string): FirebaseApp {
+  if (initialized) {
+    return getApp();
+  }
+
   try {
     return getApp();
   } catch (e: any) {
@@ -57,6 +62,13 @@ export function initFirebase(config: FirebaseOptions, NODE_ENV: string): Firebas
       connectFirestoreEmulator(firestore, 'localhost', 8888);
     }
 
+    initialized = true;
     return app;
+  }
+}
+
+export function initFirebaseBrowserOnly(config: FirebaseOptions, NODE_ENV: string) {
+  if (typeof document !== 'undefined') {
+    initFirebase(config, NODE_ENV);
   }
 }

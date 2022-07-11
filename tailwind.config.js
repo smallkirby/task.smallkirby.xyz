@@ -8,29 +8,29 @@ module.exports = {
     extend: {
       colors: {
         skblack: {
-          light: '#42403f',
+          light: '#474747',
           DEFAULT: '#282828',
-          dark: '#32302f',
+          dark: '#141414',
         },
         skred: {
-          light: '#ff2828',
-          DEFAULT: '#ff2828',
-          dark: '#ff2828',
+          light: '#FFED08',
+          DEFAULT: '#FF3CC7',
+          dark: '#FF99E2',
         },
         skwhite: {
-          light: '#ebdbb2',
-          DEFAULT: '#fbebc2',
-          dark: '#cbcba2',
+          light: '#FAFAEC',
+          DEFAULT: '#FBF1C7',
+          dark: '#5F4E07',
         },
         skgreen: {
-          light: '#84a87f',
-          DEFAULT: '#4E9A06',
-          dark: '#48680e',
+          light: '#9CE08F',
+          DEFAULT: '#317B22',
+          dark: '#194012',
         },
         skblue: {
-          light: '#34E2E2',
-          DEFAULT: '#84A87F',
-          dark: '#84A87F',
+          light: '#85FDFF',
+          DEFAULT: '#00E5E8',
+          dark: '#005052',
         },
       },
     },
