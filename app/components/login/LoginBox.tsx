@@ -1,14 +1,9 @@
-import { useEffect, useState } from 'react';
 import { GithubAuthProvider, signInWithPopup } from 'firebase/auth';
 import { getProjectAuth } from '~/lib/firebase';
-import useStore from '../../store';
 
 const provider = new GithubAuthProvider();
 
 export default function LoginBox() {
-  const { user } = useStore();
-  const [isClient, setIsClient] = useState(false);
-
   const doLogin = async () => {
     const auth = getProjectAuth();
     if (auth === null) {
@@ -18,21 +13,22 @@ export default function LoginBox() {
     return await signInWithPopup(auth, provider);
   };
 
-  useEffect(() => {
-    if (typeof document !== 'undefined') {
-      setIsClient(true);
-    }
-  }, []);
-
   return (
-    <div>
-      {isClient ?
-        (
-          <div>
-            <div>{user ? user.displayName : 'null'}</div>
-            <button onClick={doLogin}>Login</button>
-          </div>
-        ) : null}
+    <div
+      className='mx-auto text-center flex-col'
+    >
+      <div className='py-4'>
+        <img src='/img/3rd/github/GitHub-Mark-Light-32px.png' alt='Github' className='h-12 mx-auto' />
+      </div>
+      <div className='text-3xl mt-2 mb-4'>
+        Sign in with GitHub
+      </div>
+      <button
+        className='rounded-md w-32 bg-skgreen hover:bg-skgreen-dark shadow-md py-1 text-skwhite-light text-lg'
+        onClick={doLogin}
+      >
+        Sign in
+      </button>
     </div>
   );
 };

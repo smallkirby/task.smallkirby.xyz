@@ -1,6 +1,42 @@
 rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
+
+    match /users/{uid} {
+      function isOwnPath(uid) {
+        return uid == request.auth.uid
+      }
+      function isValidCreation(data) {
+        return data.keys().hasAll(['uid'])
+        && data.keys().hasOnly(['uid'])
+        && data.uid is string
+        ;
+      }
+      function isValidUpdate(data) {
+        return data.keys().hasAll(['uid'])
+        && data.keys().hasOnly(['uid'])
+        && data.uid is string
+        && data.uid == uid
+        && data.diff(resource.data).affectedKeys().hasOnly([])
+        ;
+      }
+      allow create: if signedIn() && isOwnPath(uid) && isValidCreation(inData());
+      allow delete: if false;
+      allow update: if signedIn() && isOwnPath(uid) && isValidUpdate(inData());
+      allow read: if signedIn() && isOwnPath(uid);
+    }
+
+    // Utilities
+    function inData() {
+      return request.resource.data;
+    }
+
+    function signedIn() {
+      return request.auth.uid != null
+    }
+
+
+    // Default
     match /{document=**} {
       allow read, write: if false;
     }

@@ -17,7 +17,7 @@ export default function Header() {
           </button>
 
           <div className='text-xl my-auto'>
-            <button className="h-full mr-6" onClick={() => navigate('/todo')}>
+            <button className="h-full mr-6" onClick={() => navigate('/today')}>
               Today
             </button>
             <button className="h-full mr-6" onClick={() => navigate('/calendar')}>

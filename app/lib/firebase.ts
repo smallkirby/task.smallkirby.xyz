@@ -12,23 +12,30 @@ let functions: Functions | null = null;
 let auth: Auth | null = null;
 let firestore: Firestore | null = null;
 
-export function getProjectAuth(): Auth | null {
+class FirebaseInstanceError extends Error {
+  constructor(target: 'app' | 'auth' | 'store' | 'functions', message: string) {
+    super(`${target}: ${message}`);
+    this.name = 'FirebaseInstanceError';
+  }
+}
+
+export function getProjectAuth(): Auth {
   if (!auth) {
-    console.error('Firebase auth is not initialized');
+    throw new FirebaseInstanceError('auth', 'not initialized');
   }
   return auth;
 }
 
-export function getProjectFunctions(): Functions | null {
+export function getProjectFunctions(): Functions {
   if (!functions) {
-    console.error('Firebase functions is not initialized');
+    throw new FirebaseInstanceError('functions', 'not initialized');
   }
   return functions;
 }
 
-export function getProjectFirestore(): Firestore | null {
+export function getProjectFirestore(): Firestore {
   if (!firestore) {
-    console.error('Firebase firestore is not initialized');
+    throw new FirebaseInstanceError('store', 'not initialized');
   }
   return firestore;
 }
