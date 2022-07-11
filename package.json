@@ -1,6 +1,7 @@
 {
   "private": true,
   "sideEffects": false,
+  "main": "build/index.js",
   "scripts": {
     "lint-fix": "npx eslint --fix ./*.js ./app/**/*.{js,jsx,ts,tsx}",
     "lint": "npx eslint ./*.js ./app/**/*.{js,jsx,ts,tsx}",
@@ -12,7 +13,8 @@
     "dev:miniflare": "cross-env NODE_ENV=development miniflare ./build/index.js --watch --env .env",
     "start": "cross-env NODE_ENV=production miniflare ./build/index.js",
     "deploy": "npm run build && wrangler publish",
-    "emulate": "npx firebase emulators:start --project development --only auth functions firestore"
+    "emulate": "npx firebase emulators:start --project development --only auth functions firestore",
+    "deploy-secret": "bash ./scripts/deploy-secret.sh"
   },
   "workspaces": [
     "functions"
