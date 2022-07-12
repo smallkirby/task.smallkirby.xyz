@@ -1,14 +1,13 @@
 name: Deploy Firebase
 
 on:
-  push:
+  workflow_run:
+    workflows: ["Build and Lint"]
     branches:
       - master
       - main
-  pull_request:
-    branches:
-      - master
-      - main
+    types:
+      - completed
 
 jobs:
   build_and_deploy:
