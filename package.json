@@ -6,7 +6,7 @@
     "lint-fix": "npx eslint --fix ./*.js ./app/**/*.{js,jsx,ts,tsx}",
     "lint": "npx eslint ./*.js ./app/**/*.{js,jsx,ts,tsx}",
     "build": "npm run build:css && remix build",
-    "build:css": "tailwindcss -m -i ./styles/index.css -o ./app/styles/index.css",
+    "build:css": "tailwindcss -m -i ./styles/index.css -o ./app/styles/index.css && tailwindcss -m -i ./styles/wywiwya.css -o /app/styles/wywiwya.css",
     "dev": "remix build && run-p dev:*",
     "dev:css": "tailwindcss -w -i ./styles/index.css -o ./app/styles/index.css && tailwindcss -w -i ./styles/wywiwya.css -o /app/styles/wywiwya.css",
     "dev:remix": "remix watch",
