@@ -1,7 +1,9 @@
+import Editor from '../components/editor/Editor';
+
 export default function Index() {
   return (
     <div>
-      uouo fish life
+      <Editor />
     </div>
   );
 }

@@ -4,6 +4,8 @@
 @tailwind components;
 @tailwind utilities;
 
+/* General */
+
 html {
   font-size: 16px;
   word-spacing: 1px;
@@ -40,4 +42,48 @@ body {
 a {
   text-decoration: none;
   color: #84A87F;
+}
+
+
+/* Code Mirror */
+
+.CodeMirror {
+  height: calc(100vh - 150px) !important;
+  padding-left: 10px;
+  padding-bottom: 30px;
+}
+
+.CodeMirror-dialog {
+  margin-left: 30px;
+  font-family: 'Ubuntu Mono'
+}
+
+.CodeMirror-dialog input {
+  outline: none;
+  background: transparent;
+}
+
+.cm-vim-message {
+  font-family: 'Ubuntu Mono';
+}
+
+.CodeMirror-line {
+  font-family: 'Ubuntu Mono' !important;
+  font-size: 1.0rem !important;
+}
+
+.CodeMirror-foldgutter-open {
+  color: #B16286;
+}
+
+.CodeMirror ::-webkit-scrollbar {
+  width: 0.5em;
+}
+.CodeMirror ::-webkit-scrollbar-track {
+  color: #130F1A;
+  background: #130F1A;
+}
+.CodeMirror ::-webkit-scrollbar-thumb {
+  background: #EBDBB2;
+  border-radius: 0.375rem;
 }

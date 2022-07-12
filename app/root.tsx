@@ -14,11 +14,20 @@ import { useEffect } from 'react';
 import { initFirebaseBrowserOnly } from './lib/firebase';
 import { watchUserLoginState } from './lib/session';
 import Header from '~/components/common/Header';
-// @ts-ignore
+import cmcss from 'codemirror/lib/codemirror.css';
+import wywiwya from './styles/wywiwya.css';
 import styles from './styles/index.css';
+import showhint from 'codemirror/addon/hint/show-hint.css';
+import foldgutter from 'codemirror/addon/fold/foldgutter.css';
 
 export const links: LinksFunction = () => {
-  return [{ rel: 'stylesheet', href: styles }];
+  return [
+    { rel: 'stylesheet', href: styles },
+    { rel: 'stylesheet', href: cmcss },
+    { rel: 'stylesheet', href: wywiwya },
+    { rel: 'stylesheet', href: showhint },
+    { rel: 'stylesheet', href: foldgutter },
+  ];
 };
 
 export const loader: LoaderFunction = () => {

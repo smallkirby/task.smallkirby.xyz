@@ -8,7 +8,7 @@ export default function Header() {
     <div>
       <header
         className="fixed top-0 left-0 py-2 px-6 w-screen h-14 z-40 border-b-[1px] border-skblack-light
-          flex justify-between
+          bg-skblack flex justify-between
         "
       >
         <div className='flex'>
