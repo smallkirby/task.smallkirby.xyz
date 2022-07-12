@@ -1,0 +1,53 @@
+name: Deploy Firebase
+
+on:
+  push:
+    branches:
+      - master
+      - main
+  pull_request:
+    branches:
+      - master
+      - main
+
+jobs:
+  build_and_deploy:
+    runs-on: ${{ matrix.os }}
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+
+    strategy:
+      matrix:
+        os: [ubuntu-latest]
+        node: [16]
+
+    steps:
+      - name: 🛎 Checkout
+        uses: actions/checkout@master
+
+      - name: 🏗 Use Node.js 16.x
+        uses: actions/setup-node@v2.1.5
+        with:
+          node-version: ${{ matrix.node }}
+          check-latest: true
+
+      - name: 📦 Cache node_modules
+        uses: actions/cache@v2.1.4
+        with:
+          path: ~/.npm
+          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node-
+
+      - name: 📖 Deploy firestore rules
+        uses: w9jds/firebase-action@master
+        with:
+          args: deploy --only firestore:rules -f
+        env:
+          GCP_SA_KEY: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_TASK }}
+
+      - name: 📚 Deploy firestore indexes
+        uses: w9jds/firebase-action@master
+        with:
+          args: deploy --only firestore:indexes -f
+        env:
+          GCP_SA_KEY: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_TASK }}
