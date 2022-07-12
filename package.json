@@ -8,7 +8,7 @@
     "build": "npm run build:css && remix build",
     "build:css": "tailwindcss -m -i ./styles/index.css -o ./app/styles/index.css",
     "dev": "remix build && run-p dev:*",
-    "dev:css": "tailwindcss -w -i ./styles/index.css -o ./app/styles/index.css",
+    "dev:css": "tailwindcss -w -i ./styles/index.css -o ./app/styles/index.css && tailwindcss -w -i ./styles/wywiwya.css -o /app/styles/wywiwya.css",
     "dev:remix": "remix watch",
     "dev:miniflare": "cross-env NODE_ENV=development miniflare ./build/index.js --watch --env .env",
     "start": "cross-env NODE_ENV=production miniflare ./build/index.js",
