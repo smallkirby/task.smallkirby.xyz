@@ -1,5 +1,5 @@
 import { useNavigate } from '@remix-run/react';
-import UserBadge from '~/components/user/UserBadge';
+import UserBadge from 'components/user/UserBadge';
 
 export default function Header() {
   const navigate = useNavigate();

@@ -1,4 +1,4 @@
-import type { Task } from '../../typings/task';
+import type { Task } from '../typings/task';
 import { DateTime } from 'luxon';
 
 const DAYID_FORMAT = 'yyyy-MM-dd';

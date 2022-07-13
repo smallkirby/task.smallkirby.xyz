@@ -1,7 +1,7 @@
 import useStore from '../store';
 import { useEffect } from 'react';
 import { useNavigate } from '@remix-run/react';
-import { getProjectAuth } from '~/lib/firebase';
+import { getProjectAuth } from 'lib/firebase';
 
 export default function Logout() {
   const { clearUser, pendingRedirect, clearPendingRedirect } = useStore();

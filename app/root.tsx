@@ -9,11 +9,11 @@ import {
   ScrollRestoration,
   useLoaderData,
 } from '@remix-run/react';
-import type { GlobalConfig } from '../typings/config';
+import type { GlobalConfig } from './typings/config';
 import { useEffect } from 'react';
 import { initFirebaseBrowserOnly } from './lib/firebase';
 import { watchUserLoginState } from './lib/session';
-import Header from '~/components/common/Header';
+import Header from 'components/common/Header';
 import cmcss from 'codemirror/lib/codemirror.css';
 import wywiwya from './styles/wywiwya.css';
 import styles from './styles/index.css';

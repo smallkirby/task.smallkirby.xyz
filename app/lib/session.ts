@@ -1,7 +1,7 @@
 import { getProjectAuth } from './firebase';
 import { fetchUser, registerUser, UserError } from './user';
-import type { UID } from '../../typings/user';
-import useStore from '~/store';
+import type { UID } from '../typings/user';
+import useStore from 'store';
 
 const fetchOrCreateUser = async (uid: UID) => {
   try {
