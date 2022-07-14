@@ -1,6 +1,7 @@
 import MarkdownIt from 'markdown-it';
 import DOMPurify from 'dompurify';
 const markdownCheckbox = require('markdown-it-task-checkbox');
+const markdownEmoji = require('markdown-it-emoji');
 
 const processor = new MarkdownIt({
   html: true,
@@ -8,7 +9,7 @@ const processor = new MarkdownIt({
   breaks: false,
 }).use(markdownCheckbox, {
   liClass: 'task-list-item',
-});
+}).use(markdownEmoji);
 
 export const compile2html = (md: string): string => {
   const dirtyHtml = processor.render(md);
