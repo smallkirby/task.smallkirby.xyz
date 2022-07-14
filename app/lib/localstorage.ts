@@ -8,7 +8,7 @@ export type NoteCahe = {
 };
 
 const getNoteKey = (dayId: DayID) => {
-  return `diaries/${dayId}`;
+  return `notes/${dayId}`;
 };
 
 export const setNoteCache = (rawMd: string, dayId: DayID) => {
@@ -17,7 +17,7 @@ export const setNoteCache = (rawMd: string, dayId: DayID) => {
     dayId,
     savedAt: new Date(),
   };
-  localStorage.setItem(dayId, yaml.dump(noteCache));
+  localStorage.setItem(getNoteKey(dayId), yaml.dump(noteCache));
 };
 
 export const getNoteCache = (dayId: DayID): NoteCahe | null => {

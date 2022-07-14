@@ -14,7 +14,7 @@ import Preview from './preview';
 import type { EditorMode } from 'typings/editor';
 
 const THROTTLE_MS = 500;
-const LOCAL_SAVECACHE_MS = 1000 * 10;
+const LOCAL_SAVECACHE_MS = 1000 * 5;
 
 export default function Editor({ initialDtask = null }: { initialDtask?: DayTask | null }) {
   const [mode, setMode] = useState<EditorMode>('edit');
@@ -25,14 +25,18 @@ export default function Editor({ initialDtask = null }: { initialDtask?: DayTask
     owner: null,
   });
 
-  const [callbacks] = useState<EditorCallbacks>({
+  const callbacks: EditorCallbacks = {
     onChange: throttle((note) => {
       setDtask({ ...dtask, note_md: note, tasks: rawmd2tasks(note) });
     }, THROTTLE_MS),
-  });
+  };
 
   useEffect(() => {
-    console.log(dtask);
+    const saveCacheIntervalHdlr = setInterval(() => {
+      setNoteCache(dtask.note_md, dtask.day_id);
+    }, LOCAL_SAVECACHE_MS);
+
+    return () => clearInterval(saveCacheIntervalHdlr);
   }, [dtask]);
 
   useEffect(() => {
@@ -41,16 +45,9 @@ export default function Editor({ initialDtask = null }: { initialDtask?: DayTask
       setDtask({ ...dtask, note_md: cachedNote.rawMd });
       console.log(`Restored note from cache saved at ${cachedNote.savedAt}`);
       removeNoteCache(cachedNote.dayId);
+    } else {
+      console.log('No cache not found');
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
-  useEffect(() => {
-    const saveCacheIntervalHdlr = setInterval(() => {
-      setNoteCache(dtask.note_md, dtask.day_id);
-    }, LOCAL_SAVECACHE_MS);
-
-    return () => clearInterval(saveCacheIntervalHdlr);
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 

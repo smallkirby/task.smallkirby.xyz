@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react';
 import { compile2html } from 'lib/markdown';
-import 'styles/preview.css';
 
 export default function Preview(props: {rawmd: string }) {
   const [html, setHtml] = useState('');
