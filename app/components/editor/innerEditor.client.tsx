@@ -9,6 +9,7 @@ import 'codemirror/addon/fold/foldcode.js';
 import 'codemirror/addon/fold/foldgutter.js';
 import 'codemirror/addon/selection/active-line.js';
 import 'codemirror/addon/edit/closebrackets.js';
+import { useLayoutEffect } from 'react';
 require('codemirror/mode/markdown/markdown.js');
 require('codemirror/keymap/vim.js');
 require('codemirror/addon/hint/show-hint.js');
@@ -32,6 +33,7 @@ export interface EditorCallbacks {
 
 export default function InnerEditor({ rawmd = '', callbacks }: {rawmd?: string, callbacks: EditorCallbacks}) {
   const editorRef = useRef<HTMLTextAreaElement>(null);
+  const [winSize, setWinSize] = useState([0, 0]);
   const [isBrowser] = useState(isClient());
   const [editor, setEditor] = useState<CMEditor | null>(null);
 
@@ -49,6 +51,27 @@ export default function InnerEditor({ rawmd = '', callbacks }: {rawmd?: string, 
     });
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [editor]);
+
+  // Watch editor size
+  useLayoutEffect(() => {
+    if (isBrowser) {
+      const hdlrSetWinSize = () => {
+        setWinSize([window.innerWidth, window.innerHeight]);
+      };
+      window.addEventListener('resize', hdlrSetWinSize);
+      return () => window.removeEventListener('resize', hdlrSetWinSize);
+    }
+  }, [isBrowser]);
+
+  // Set editor key bindings depending on editor width
+  useEffect(() => {
+    console.log(winSize);
+    if (winSize[0] < 600) {
+      editor?.setOption('keyMap', 'default');
+    } else {
+      editor?.setOption('keyMap', 'vim');
+    }
+  }, [editor, winSize]);
 
   useEffect(() => {
     if (!isBrowser) {
