@@ -1,7 +1,25 @@
-import type { Task } from '../typings/task';
+import type { Task, DayTask } from '../typings/task';
 import { DateTime } from 'luxon';
+import { getProjectFirestore } from './firebase';
+import { doc, getDoc, setDoc } from 'firebase/firestore';
+import type { UID } from 'typings/user';
+
+export type DtaskErrorType =
+  | 'OWNER_UNKNOWN'
+  | 'OPERATION_FAILED'
+;
 
 const DAYID_FORMAT = 'yyyy-MM-dd';
+
+export class DtaskError extends Error {
+  reason: DtaskErrorType;
+
+  constructor(reason: DtaskErrorType, message: string = '') {
+    super(`${reason}: ${message}`);
+    this.name = 'DtaskError';
+    this.reason = reason;
+  }
+}
 
 /*
   Convert raw markdown string into Task list.
@@ -27,3 +45,26 @@ export const rawmd2tasks = (rawmd: string): Task[] => {
 export const todaysDayID = (): string => (
   DateTime.local().toFormat(DAYID_FORMAT)
 );
+
+export const fetchTodaysTask = async (uid: UID): Promise<DayTask | null> => {
+  const db = getProjectFirestore();
+  const todaySTaskRef = doc(db, 'tasks', uid, 'tasks', todaysDayID());
+  const userDocSnap = await getDoc(todaySTaskRef);
+
+  if (!userDocSnap.exists()) {
+    return null;
+  } else {
+    return userDocSnap.data() as DayTask;
+  }
+};
+
+export const pushTodaysTask = async (dtask: DayTask) => {
+  if (dtask.owner === null) {
+    throw new DtaskError('OWNER_UNKNOWN');
+  }
+  const db = getProjectFirestore();
+  const todaySTaskRef = doc(db, 'tasks', dtask.owner, 'tasks', dtask.day_id);
+  await setDoc(todaySTaskRef, dtask).catch((e) => {
+    throw new DtaskError('OPERATION_FAILED', e.message);
+  });
+};

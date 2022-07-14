@@ -26,6 +26,34 @@ service cloud.firestore {
       allow read: if signedIn() && isOwnPath(uid);
     }
 
+    match /tasks/{uid}/tasks/{taskDayId} {
+      function isOwnPath(uid) {
+        return uid == request.auth.uid
+      }
+      function isValidCreation(data) {
+        return data.keys().hasAll(['day_id', 'note_md', 'tasks', 'owner'])
+        && data.keys().hasOnly(['day_id', 'note_md', 'tasks', 'owner'])
+        && data.day_id is string
+        && data.note_md is string
+        && data.tasks is list
+        && data.owner is string
+        ;
+      }
+      function isValidUpdate(data) {
+        return data.keys().hasAll(['day_id', 'note_md', 'tasks', 'owner'])
+        && data.keys().hasOnly(['day_id', 'note_md', 'tasks', 'owner'])
+        && data.day_id is string
+        && data.note_md is string
+        && data.tasks is list
+        && data.owner is string
+        ;
+      }
+      allow create: if signedIn() && isOwnPath(uid) && isValidCreation(inData());
+      allow delete: if false;
+      allow update: if signedIn() && isOwnPath(uid) && isValidUpdate(inData());
+      allow read: if signedIn() && isOwnPath(uid);
+    }
+
     // Utilities
     function inData() {
       return request.resource.data;

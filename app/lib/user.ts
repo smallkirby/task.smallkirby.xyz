@@ -1,4 +1,4 @@
-import type { User, UID } from '../../typings/user';
+import type { User, UID } from '../typings/user';
 import { doc, getDoc, setDoc } from 'firebase/firestore';
 import { getProjectFirestore } from '../lib/firebase';
 
