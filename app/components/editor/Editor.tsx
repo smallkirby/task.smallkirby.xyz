@@ -33,6 +33,12 @@ export default function Editor({ initialDtask = null }: { initialDtask?: DayTask
     }, THROTTLE_MS),
   };
 
+  // Set UID to dtask
+  useEffect(() => {
+    setDtask({ ...dtask, owner: user?.uid ?? null });
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [user]);
+
   // Set handler to save note cache to local storage
   useEffect(() => {
     const saveCacheIntervalHdlr = setInterval(() => {
