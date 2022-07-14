@@ -13,10 +13,10 @@ export default function Header() {
       >
         <div className='flex'>
           <button className="h-full mr-8" onClick={() => navigate('/')}>
-            <img src="/img/logo.png" alt="logo" className="h-8 rounded-full" />
+            <img src="/img/logo.png" alt="logo" className="h-6 md:h-8 rounded-full" />
           </button>
 
-          <div className='text-xl my-auto'>
+          <div className='text-sm md:text-xl my-auto'>
             <button className="h-full mr-6" onClick={() => navigate('/today')}>
               Today
             </button>

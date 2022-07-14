@@ -12,6 +12,10 @@ const defaultMdContent = stripIndent`
   - [ ] Nirugiri
   - [x] uouo fish life
   - [ ] fitbit
+
+  <br>
+
+  ### :warning: UNDER CONSTRUCTION :warning:
 `;
 
 const defaultDtask: DayTask = {
@@ -24,7 +28,7 @@ const defaultDtask: DayTask = {
 export default function Index() {
   return (
     <div>
-      <Editor initialDtask={defaultDtask}/>
+      <Editor initialDtask={defaultDtask} dontCache={true} />
     </div>
   );
 }

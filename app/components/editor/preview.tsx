@@ -9,7 +9,9 @@ export default function Preview(props: {rawmd: string }) {
   }, [props.rawmd]);
 
   return (
-    <div className='bg-skblack-dark text-skwhite rounded-2xl py-4 px-10 pb-20 h-full w-full drop-shadow-2xl'>
+    <div className='bg-skblack-dark text-skwhite rounded-2xl py-4 mr-2 px-6 md:px-10 pb-20
+      h-full w-full drop-shadow-2xl'
+    >
       <link rel='stylesheet' href='/css/preview.css'></link>
       <div dangerouslySetInnerHTML={{ __html: html }}></div>
     </div>

@@ -17,7 +17,9 @@ import useStore from 'store';
 const THROTTLE_MS = 500;
 const LOCAL_SAVECACHE_MS = 1000 * 5;
 
-export default function Editor({ initialDtask = null }: { initialDtask?: DayTask | null }) {
+export default function Editor({ initialDtask = null, dontCache = false }:
+  { initialDtask?: DayTask | null, dontCache?: boolean },
+) {
   const { user } = useStore();
   const [mode, setMode] = useState<EditorMode>('edit');
   const [dtask, setDtask] = useState<DayTask>(initialDtask || {
@@ -41,12 +43,13 @@ export default function Editor({ initialDtask = null }: { initialDtask?: DayTask
 
   // Set handler to save note cache to local storage
   useEffect(() => {
+    if (dontCache) return;
     const saveCacheIntervalHdlr = setInterval(() => {
       setNoteCache(dtask.note_md, dtask.day_id);
     }, LOCAL_SAVECACHE_MS);
 
     return () => clearInterval(saveCacheIntervalHdlr);
-  }, [dtask]);
+  }, [dontCache, dtask]);
 
   // Restoe cached note from local storage
   useEffect(() => {
@@ -74,7 +77,7 @@ export default function Editor({ initialDtask = null }: { initialDtask?: DayTask
     <div>
       <Links />
 
-      <div className='flex mt-2 px-8 justify-between justify-items-end'>
+      <div className='flex mt-2 mx-2 md:px-8 justify-between justify-items-end'>
         <SaveButton callback={onSaveClick}/>
         <SwitchModeButton callback={onSwitchModeClick} mode={mode} />
       </div>

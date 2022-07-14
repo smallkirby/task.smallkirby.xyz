@@ -8,7 +8,7 @@ export default function UserBadge() {
   return (
     <button className='my-auto'>
       <img src={fbuser?.photoURL || '/img/question.png'} alt={fbuser?.displayName || 'Not Logged In'}
-        className={`h-8 rounded-full ${fbuser === null ? 'border-2 border-skblack-light p-2' : ''}`}
+        className={`h-6 md:h-8 rounded-full ${fbuser === null ? 'border-2 border-skblack-light p-2' : ''}`}
         onClick={() => {
           fbuser || navigate('/login');
         }}

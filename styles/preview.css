@@ -6,6 +6,12 @@ body {
   margin-right: 0rem;
   padding-right: 0rem;
   padding-bottom: 8.0rem;
+  font-size: 14px;
+}
+@media (min-width: 768px) {
+  body {
+    font-size: 16px;
+  }
 }
 
 body::-webkit-scrollbar {
@@ -22,34 +28,58 @@ body::-webkit-scrollbar-thumb {
 }
 
 h1,h2,h3,h4,h5 {
-  margin-right: 0.3rem;
-  margin-top: 2.5rem;
-  margin-bottom: 1.2rem;
-  padding-bottom: 0.8rem;
+  margin-top: 0.7rem;
+  margin-bottom: 0.2rem;
+  padding-bottom: 0.4rem;
   padding-right: 0.2rem;
   border-bottom: solid 1px;
   border-color: #2A2433;
 }
+@media (min-width: 768px) {
+  h1,h2,h3,h4,h5 {
+    margin-right: 0.3rem;
+    margin-top: 1.2rem;
+    margin-bottom: 1.2rem;
+    padding-bottom: 0.8rem;
+    padding-right: 0.2rem;
+    border-bottom: solid 1px;
+    border-color: #2A2433;
+  }
+}
 
 h1 {
-  font-size: 1.9rem;
+  font-size: 22px;
 }
-
 h2 {
-  font-size: 1.7rem;
+  font-size: 16px;
 }
-
 h3 {
-  font-size: 1.5rem;
+  font-size: 14;
 }
-
 h4 {
-  font-size: 1.3rem;
+  font-size: 12;
 }
-
 h1:first-child, h2:first-child, h3:first-child, h4:first-child, h5:first-child {
   margin-top: 0rem;
   padding-top: 0rem;
+}
+@media (min-width: 768px) {
+  h1 {
+    font-size: 1.9rem;
+  }
+  h2 {
+    font-size: 1.7rem;
+  }
+  h3 {
+    font-size: 1.5rem;
+  }
+  h4 {
+    font-size: 1.3rem;
+  }
+  h1:first-child, h2:first-child, h3:first-child, h4:first-child, h5:first-child {
+    margin-top: 0rem;
+    padding-top: 0rem;
+  }
 }
 
 p {

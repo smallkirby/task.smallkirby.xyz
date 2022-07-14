@@ -71,7 +71,7 @@ export default function App() {
       </head>
       <body className='bg-skblack'>
         <Header />
-        <div className='mt-16 w-2/3 mx-auto'>
+        <div className='mt-16 w-full md:w-2/3 mx-auto px-1 md:px-4'>
           <Outlet/>
         </div>
         <ScrollRestoration />
