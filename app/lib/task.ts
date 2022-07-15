@@ -14,6 +14,18 @@ export type DtaskErrorType =
 
 const DAYID_FORMAT = 'yyyy-MM-dd';
 
+export const todaysDayID = (): string => (
+  DateTime.local().toFormat(DAYID_FORMAT)
+);
+
+export const DEFAULT_DTASK = {
+  note_md: '',
+  day_id: todaysDayID(),
+  owner: null,
+  tasks: [],
+  createdAt: new Date(),
+  updatedAt: new Date(),
+};
 export class DtaskError extends Error {
   reason: DtaskErrorType;
 
@@ -44,10 +56,6 @@ export const rawmd2tasks = (rawmd: string): Task[] => {
   }
   return tasks;
 };
-
-export const todaysDayID = (): string => (
-  DateTime.local().toFormat(DAYID_FORMAT)
-);
 
 export const cachedOrNewer = (cached: NoteCahe, remote: DayTask): string => {
   if (cached.savedAt.getTime() > remote.updatedAt.getTime()) {
