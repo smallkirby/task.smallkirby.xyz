@@ -3,6 +3,9 @@ import { DateTime } from 'luxon';
 import { getProjectFirestore } from './firebase';
 import { doc, getDoc, setDoc } from 'firebase/firestore';
 import type { UID } from 'typings/user';
+import type { NoteCahe } from './localstorage';
+import { serverTimestamp } from 'firebase/firestore';
+import { timestamp2date } from './date';
 
 export type DtaskErrorType =
   | 'OWNER_UNKNOWN'
@@ -46,6 +49,16 @@ export const todaysDayID = (): string => (
   DateTime.local().toFormat(DAYID_FORMAT)
 );
 
+export const cachedOrNewer = (cached: NoteCahe, remote: DayTask): string => {
+  if (cached.savedAt.getTime() > remote.updatedAt.getTime()) {
+    console.log('Using local cache');
+    return cached.rawMd;
+  } else {
+    console.log('Using remote cache');
+    return remote.note_md;
+  }
+};
+
 export const fetchTodaysTask = async (uid: UID): Promise<DayTask | null> => {
   const db = getProjectFirestore();
   const todaySTaskRef = doc(db, 'tasks', uid, 'tasks', todaysDayID());
@@ -54,17 +67,21 @@ export const fetchTodaysTask = async (uid: UID): Promise<DayTask | null> => {
   if (!userDocSnap.exists()) {
     return null;
   } else {
-    return userDocSnap.data() as DayTask;
+    return timestamp2date(userDocSnap.data() as DayTask, ['updatedAt', 'createdAt']);
   }
 };
 
-export const pushTodaysTask = async (dtask: DayTask) => {
+export const pushTodaysTask = async (dtask: DayTask): Promise<Date> => {
   if (dtask.owner === null) {
     throw new DtaskError('OWNER_UNKNOWN');
   }
   const db = getProjectFirestore();
   const todaySTaskRef = doc(db, 'tasks', dtask.owner, 'tasks', dtask.day_id);
-  await setDoc(todaySTaskRef, dtask).catch((e) => {
+  const updatedAt = new Date();
+  return await setDoc(todaySTaskRef, {
+    ...dtask,
+    updatedAt: serverTimestamp(),
+  }).then(() => (updatedAt)).catch((e) => {
     throw new DtaskError('OPERATION_FAILED', e.message);
   });
 };

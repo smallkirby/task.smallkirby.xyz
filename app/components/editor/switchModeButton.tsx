@@ -9,7 +9,7 @@ export default function SwitchModeButton({ callback, mode }: {callback: () => vo
       onClick={callback}
     >
       <FontAwesomeIcon icon={mode === 'edit' ? faEye : faPen }
-        className='hover:text-skgreen mb-0 pb-0 transition-all duration-500'
+        className='hover:text-skgreen mb-0 pb-0 transition-all duration-500 pt-2'
       />
     </button>
   );

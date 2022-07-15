@@ -31,21 +31,27 @@ service cloud.firestore {
         return uid == request.auth.uid
       }
       function isValidCreation(data) {
-        return data.keys().hasAll(['day_id', 'note_md', 'tasks', 'owner'])
-        && data.keys().hasOnly(['day_id', 'note_md', 'tasks', 'owner'])
+        return data.keys().hasAll(['day_id', 'note_md', 'tasks', 'owner', 'updatedAt', 'createdAt'])
+        && data.keys().hasOnly(['day_id', 'note_md', 'tasks', 'owner', 'updatedAt', 'createdAt'])
         && data.day_id is string
         && data.note_md is string
         && data.tasks is list
         && data.owner is string
+        && data.owner == uid
+        && data.updatedAt is timestamp
+        && data.createdAt is timestamp
         ;
       }
       function isValidUpdate(data) {
-        return data.keys().hasAll(['day_id', 'note_md', 'tasks', 'owner'])
-        && data.keys().hasOnly(['day_id', 'note_md', 'tasks', 'owner'])
+        return data.keys().hasAll(['day_id', 'note_md', 'tasks', 'owner', 'updatedAt', 'createdAt'])
+        && data.keys().hasOnly(['day_id', 'note_md', 'tasks', 'owner', 'updatedAt', 'createdAt'])
         && data.day_id is string
         && data.note_md is string
         && data.tasks is list
         && data.owner is string
+        && data.owner == uid
+        && data.updatedAt is timestamp
+        && data.createdAt is timestamp
         ;
       }
       allow create: if signedIn() && isOwnPath(uid) && isValidCreation(inData());

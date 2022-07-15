@@ -6,7 +6,6 @@ import useStore from 'store';
 
 export default function Today() {
   const [restoredTask, setRestoredTask] = useState<DayTask | null>(null);
-  const [loaded, setLoaded] = useState(false);
   const { user } = useStore();
 
   useEffect(() => {
@@ -16,15 +15,15 @@ export default function Today() {
         const todaysTask = await fetchTodaysTask(uid);
         if (todaysTask) {
           setRestoredTask(todaysTask);
+          console.log('Fetched remote saved task');
         }
       }
-      setLoaded(true);
     })();
   }, [user]);
 
   return (
     <div>
-      {!loaded ?
+      {restoredTask === null ?
         <div>Loading...</div> :
         <Editor initialDtask={restoredTask} />
       }

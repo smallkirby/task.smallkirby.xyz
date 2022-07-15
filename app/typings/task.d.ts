@@ -12,4 +12,6 @@ export type DayTask = {
   note_md: string,
   tasks: Task[],
   owner: UID | null,
+  createdAt: Date,
+  updatedAt: Date,
 };
