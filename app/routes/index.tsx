@@ -25,6 +25,8 @@ export default function Index() {
     day_id: 'SAMPLE',
     owner: null,
     tasks: rawmd2tasks(defaultMdContent),
+    createdAt: new Date(),
+    updatedAt: new Date(),
   };
 
   return (
