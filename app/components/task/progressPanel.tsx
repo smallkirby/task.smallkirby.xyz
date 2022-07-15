@@ -23,15 +23,22 @@ export default function ProgressPanel({ dtask }: {dtask: DayTask}) {
 
   return (
     <div className='rounded-md drop-shadow-2xl w-full'>
-      <div className='text-2xl'>Progress</div>
+      <div className='text-2xl pb-4'>Progress</div>
       {loaded ?
         <div>
           <div className='ml-2 text-base'>
             Completed <span className='text-skred'>{formatProgress(progress)}%</span> of tasks
           </div>
-          <div className='h-32'>
-            <TaskCompletionBar dtask={dtask} />
-          </div>
+          {dtask.tasks.length !== 0 ?
+            <div className='h-32'>
+              <TaskCompletionBar dtask={dtask} />
+            </div> :
+            <div className='flex justify-center py-4'>
+              {Array(4).fill(0).map((_, ix) => (
+                <img src={'/img/logo.png'} alt='no todo' className='blur-lg grayscale mx-auto h-12' key={ix} />
+              ))}
+            </div>
+          }
         </div>:
         <div>
           Loading...

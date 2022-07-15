@@ -15,17 +15,22 @@ export default function TaskList({ dtask }: {dtask: DayTask}) {
       <div className='text-2xl'>Tasks</div>
       {loaded ?
         <div className='ml-2'>
-          <ul>
-            {Array(dtask.tasks.length).fill(0).map((_, ix) => (
-              <li key={ix} className='task-list-item'>
-                <input type='checkbox'
-                  disabled={true} id={`task-${dtask.day_id}-${ix}`} checked={dtask.tasks[ix].done} />
-                <label htmlFor={`task-${dtask.day_id}-${ix}`}>
-                  {dtask.tasks[ix].taskname}
-                </label>
-              </li>
-            ))}
-          </ul>
+          {dtask.tasks.length !== 0 ?
+            <ul>
+              {Array(dtask.tasks.length).fill(0).map((_, ix) => (
+                <li key={ix} className='task-list-item'>
+                  <input type='checkbox'
+                    disabled={true} id={`task-${dtask.day_id}-${ix}`} checked={dtask.tasks[ix].done} />
+                  <label htmlFor={`task-${dtask.day_id}-${ix}`}>
+                    {dtask.tasks[ix].taskname}
+                  </label>
+                </li>
+              ))}
+            </ul> :
+            <div className='pt-2 text-skblack'>
+              (No tasks registered today)
+            </div>
+          }
         </div> :
         <div>
           Loading...
