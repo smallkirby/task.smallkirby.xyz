@@ -59,13 +59,13 @@ export default function InnerEditor({ rawmd = '', callbacks }: {rawmd?: string, 
         setWinSize([window.innerWidth, window.innerHeight]);
       };
       window.addEventListener('resize', hdlrSetWinSize);
+      hdlrSetWinSize();
       return () => window.removeEventListener('resize', hdlrSetWinSize);
     }
   }, [isBrowser]);
 
   // Set editor key bindings depending on editor width
   useEffect(() => {
-    console.log(winSize);
     if (winSize[0] < 600) {
       editor?.setOption('keyMap', 'default');
     } else {
