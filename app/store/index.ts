@@ -1,4 +1,4 @@
-import type { StoreType } from '../../typings/store';
+import type { StoreType } from '../typings/store';
 import create from 'zustand';
 
 const useStore = create<StoreType>((set) => ({

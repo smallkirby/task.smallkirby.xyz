@@ -4,3 +4,7 @@
 ![Build](https://github.com/smallkirby/task.smallkirby.xyz/actions/workflows/build.yml/badge.svg)
 ![Deploy Cloudflare](https://github.com/smallkirby/task.smallkirby.xyz/actions/workflows/deploy-cloudflare.yml/badge.svg)
 ![Deploy Firebase](https://github.com/smallkirby/task.smallkirby.xyz/actions/workflows/deploy-firebase.yml/badge.svg)
+
+<p align="center">
+  <img src='./public/img/logo.png' height="200" />
+</p>
