@@ -13,6 +13,7 @@ import { setNoteCache, getNoteCache, removeNoteCache } from 'lib/localstorage';
 import Preview from './preview';
 import type { EditorMode } from 'typings/editor';
 import useStore from 'store';
+import TaskAnalysisPanel from 'components/task/TaskAnalysisPanel';
 
 const THROTTLE_MS = 500;
 const LOCAL_SAVECACHE_MS = 1000 * 5;
@@ -21,7 +22,7 @@ export default function Editor({ initialDtask = null, dontCache = false }:
   { initialDtask?: DayTask | null, dontCache?: boolean },
 ) {
   const { user } = useStore();
-  const [mode, setMode] = useState<EditorMode>('edit');
+  const [mode, setMode] = useState<EditorMode>('view');
   const [dtask, setDtask] = useState<DayTask>(initialDtask || {
     day_id: todaysDayID(),
     note_md: '',
@@ -53,6 +54,7 @@ export default function Editor({ initialDtask = null, dontCache = false }:
 
   // Restoe cached note from local storage
   useEffect(() => {
+    if (dontCache) return;
     const cachedNote = getNoteCache(dtask.day_id);
     if (cachedNote) {
       setDtask({ ...dtask, note_md: cachedNote.rawMd });
@@ -87,7 +89,14 @@ export default function Editor({ initialDtask = null, dontCache = false }:
             {() => <InnerEditor callbacks={callbacks} rawmd={dtask.note_md} />}
           </ClientOnly>
         ) :
-          <Preview rawmd={dtask.note_md} />
+          <div>
+            <div>
+              <TaskAnalysisPanel dtask={dtask}/>
+            </div>
+            <div className='mt-4'>
+              <Preview rawmd={dtask.note_md} />
+            </div>
+          </div>
         }
       </div>
     </div>

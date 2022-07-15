@@ -1,5 +1,6 @@
 import { stripIndent } from 'common-tags';
 import Editor from 'components/editor/Editor';
+import { rawmd2tasks } from 'lib/task';
 import type { DayTask } from 'typings/task';
 
 const defaultMdContent = stripIndent`
@@ -18,14 +19,14 @@ const defaultMdContent = stripIndent`
   ### :warning: UNDER CONSTRUCTION :warning:
 `;
 
-const defaultDtask: DayTask = {
-  note_md: defaultMdContent,
-  day_id: 'SAMPLE',
-  owner: null,
-  tasks: [],
-};
-
 export default function Index() {
+  const defaultDtask: DayTask = {
+    note_md: defaultMdContent,
+    day_id: 'SAMPLE',
+    owner: null,
+    tasks: rawmd2tasks(defaultMdContent),
+  };
+
   return (
     <div>
       <Editor initialDtask={defaultDtask} dontCache={true} />

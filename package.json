@@ -30,6 +30,8 @@
     "@fortawesome/fontawesome-svg-core": "^6.1.1",
     "@fortawesome/free-solid-svg-icons": "^6.1.1",
     "@fortawesome/react-fontawesome": "^0.2.0",
+    "@nivo/bar": "^0.79.1",
+    "@nivo/core": "^0.79.0",
     "@remix-run/cloudflare": "^1.6.1",
     "@remix-run/cloudflare-workers": "^1.6.1",
     "@remix-run/react": "^1.6.1",
