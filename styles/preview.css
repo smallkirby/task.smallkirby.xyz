@@ -92,6 +92,10 @@ ul {
   padding-bottom: 0.2rem;
 }
 
+ul.task-list {
+  padding-left: 0.1rem;
+}
+
 li {
   list-style: square;
   margin-bottom: 0.2rem;
