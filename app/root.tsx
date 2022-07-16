@@ -20,6 +20,7 @@ import styles from './styles/index.css';
 import showhint from 'codemirror/addon/hint/show-hint.css';
 import foldgutter from 'codemirror/addon/fold/foldgutter.css';
 import calendar from 'styles/calendar.css';
+import Footer from 'components/common/Footer';
 
 export const links: LinksFunction = () => {
   return [
@@ -71,10 +72,13 @@ export default function App() {
         <Meta />
         <Links />
       </head>
-      <body className='bg-skblack'>
-        <Header />
-        <div className='mt-16 w-full md:w-2/3 mx-auto px-1 md:px-4'>
-          <Outlet/>
+      <body className='bg-skblack pb-0'>
+        <div className='flex flex-col flex-shrink flex-grow flex-1 min-h-screen'>
+          <div className='mt-16 w-full md:w-2/3 mx-auto px-1 md:px-4 mb-20'>
+            <Header />
+            <Outlet/>
+          </div>
+          <Footer />
         </div>
         <ScrollRestoration />
         <Scripts />
