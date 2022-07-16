@@ -7,6 +7,7 @@ import TaskCalendar from 'components/calendar/TaskCalendar';
 import { date2dayid, dayid2date } from 'lib/date';
 import type { TaskCalendarCallbacks } from 'components/calendar/TaskCalendar';
 import TaskAnalysisPane from 'components/task/TaskAnalysisPanel';
+import NavigateToTask from 'components/task/NavigateToTask';
 
 export default function Calendar() {
   const navigate = useNavigate();
@@ -14,6 +15,7 @@ export default function Calendar() {
   const [dayid, setDayId] = useState<DayID>(todaysDayID()); // zero-origin
   const [month, setMonth] = useState<number>(dayid2date(dayid).getMonth());
   const [dtasks, setDtasks] = useState<DayTask[]>([]);
+  const [chosenTask, setChosenTask] = useState<DayTask | null>(null);
 
   const callbacks: TaskCalendarCallbacks = {
     onMonthRangeChange: (date: Date): void => {
@@ -37,6 +39,10 @@ export default function Calendar() {
   }, [user, navigate, setPendingRedirect]);
 
   useEffect(() => {
+    setChosenTask(dtasks ? dtasks.find((t) => t.day_id === dayid) ?? null : null);
+  }, [dayid, dtasks]);
+
+  useEffect(() => {
     (async () => {
       const uid = user?.uid;
       if (!uid) return;
@@ -46,13 +52,12 @@ export default function Calendar() {
   }, [user, dayid]);
 
   return (
-    <div>
-      <div>
-        <TaskCalendar month={month} tasks={dtasks} callbacks={callbacks} />
+    <div className="flex flex-col">
+      <TaskCalendar month={month} tasks={dtasks} callbacks={callbacks} />
+      <div className='mx-auto my-2'>
+        <NavigateToTask task={chosenTask} />
       </div>
-      <div>
-        <TaskAnalysisPane dtask={dtasks ? dtasks.find((t) => t.day_id === dayid) ?? null : null}/>
-      </div>
+      <TaskAnalysisPane dtask={chosenTask}/>
     </div>
   );
 };
