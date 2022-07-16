@@ -21,8 +21,9 @@
     "dev:miniflare": "cross-env NODE_ENV=development miniflare ./build/index.js --watch --env .env",
     "start": "cross-env NODE_ENV=production miniflare ./build/index.js",
     "deploy": "npm run build && wrangler publish",
-    "emulate": "npx firebase emulators:start --project development --only auth functions firestore",
-    "deploy-secret": "bash ./scripts/deploy-secret.sh"
+    "emulate": "firebase emulators:start",
+    "deploy-secret": "bash ./misc/deploy-secret.bash",
+    "nirugiri": "bash ./misc/start-workspace.bash"
   },
   "workspaces": [
     "functions"
