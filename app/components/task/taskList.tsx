@@ -27,8 +27,8 @@ export default function TaskList({ dtask }: {dtask: DayTask}) {
                 </li>
               ))}
             </ul> :
-            <div className='pt-2 text-skblack'>
-              (No tasks registered today)
+            <div className='pt-2 text-skblack-light text-lg'>
+              (No tasks registered)
             </div>
           }
         </div> :

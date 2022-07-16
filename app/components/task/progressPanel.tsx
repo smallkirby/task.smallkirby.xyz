@@ -33,10 +33,8 @@ export default function ProgressPanel({ dtask }: {dtask: DayTask}) {
             <div className='h-32'>
               <TaskCompletionBar dtask={dtask} />
             </div> :
-            <div className='flex justify-center py-4 mx-6'>
-              {Array(5).fill(0).map((_, ix) => (
-                <img src={'/img/logo.png'} alt='no todo' className='blur-sm grayscale mx-auto h-12' key={ix} />
-              ))}
+            <div className='text-skblack-light text-lg text-center mt-2'>
+              (No tasks registered)
             </div>
           }
         </div>:
