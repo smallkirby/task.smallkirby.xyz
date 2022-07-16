@@ -1,18 +1,71 @@
 import useStore from '../../store';
+import { useState } from 'react';
 import { useNavigate } from '@remix-run/react';
+import { Button } from '@mui/material';
+import Menu from '@mui/material/Menu';
+import { MenuItem, ListItemIcon } from '@mui/material';
+import Settings from '@mui/icons-material/Settings';
+import Logout from '@mui/icons-material/Logout';
 
 export default function UserBadge() {
   const { fbuser } = useStore();
+  const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null);
   const navigate = useNavigate();
+  const open = Boolean(anchorEl);
+
+  const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+    if (fbuser === null) {
+      setAnchorEl(null);
+      navigate('/login');
+    } else {
+      setAnchorEl(event.currentTarget);
+    }
+  };
+
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
 
   return (
-    <button className='my-auto'>
-      <img src={fbuser?.photoURL || '/img/question.png'} alt={fbuser?.displayName || 'Not Logged In'}
-        className={`h-6 md:h-8 rounded-full ${fbuser === null ? 'border-2 border-skblack-light p-2' : ''}`}
-        onClick={() => {
-          fbuser || navigate('/login');
+    <div>
+      <Button className='my-auto' onClick={handleClick} id='user-badge'
+        aria-controls={open ? 'user-badge' : undefined}
+        aria-haspopup='true'
+        aria-expanded={open ? 'true' : undefined}
+      >
+        <img src={fbuser?.photoURL || '/img/question.png'} alt={fbuser?.displayName || 'Not Logged In'}
+          className={`h-6 md:h-8 rounded-full ${fbuser === null ? 'border-2 border-skblack-light p-2' : ''}`}
+        />
+      </Button>
+
+      <Menu
+        id='user-menu'
+        aria-labelledby='user-badge'
+        anchorEl={anchorEl}
+        open={open}
+        onClose={handleClose}
+        transformOrigin={{ vertical: 'top', horizontal: 'left' }}
+        sx={{
+          '.MuiPaper-root': {
+            backgroundColor: '#282828',
+          },
+          '.MuiList-root': {
+            backgroundColor: '#282828',
+            borderColor: '474747',
+            borderRadius: '8px',
+            color: '#FBF1C7',
+          },
         }}
-      />
-    </button>
+      >
+        <MenuItem className='text-sm hover:bg-skblack-light' onClick={() => navigate('/profile')}>
+          <ListItemIcon><Settings fontSize='small' className='text-skwhite' /></ListItemIcon>
+          Settings
+        </MenuItem>
+        <MenuItem className='text-sm hover:bg-red-500' onClick={() => navigate('/logout')}>
+          <ListItemIcon><Logout fontSize='small' className='text-skwhite' /></ListItemIcon>
+          Logout
+        </MenuItem>
+      </Menu>
+    </div>
   );
 };
