@@ -3,7 +3,7 @@ import { useState } from 'react';
 import Calendar from 'react-calendar';
 import CalendarDayPanel from './calendarDayPanel';
 import type { DayTask } from 'typings/task';
-import { taskOfDay } from 'lib/date';
+import { date2dayid, taskOfDay } from 'lib/date';
 import { DateTime } from 'luxon';
 
 export interface TaskCalendarCallbacks {
@@ -29,7 +29,9 @@ export default function TaskCalendar({ month, tasks, callbacks }: {
           calendarType='Hebrew'
           defaultView='month'
           view='month'
-          tileDisabled={({ date }) => (date.getMonth() !== month)}
+          tileDisabled={({ date }) => (
+            date.getMonth() !== month || !tasks.find((t) => t.day_id === date2dayid(date))
+          )}
           showNeighboringMonth={false}
           tileContent={({ date, view }) => {
             return <CalendarDayPanel task={taskOfDay(tasks, date)}/>;
