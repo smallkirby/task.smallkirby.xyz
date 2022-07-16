@@ -56,23 +56,17 @@
 .CM-S-WYWIWYA SPAN.CM-PROPERTY { COLOR: #66D9EF; }
 .CM-S-WYWIWYA SPAN.CM-BUILTIN { COLOR: #50FA7B; }
 .cm-s-wywiwya span.cm-variable-3, .cm-s-wywiwya span.cm-type { color: #6D8A88; }
-.cm-s-wywiwya .cm-trailing-space-a:before {
-  content: '␣';
-  color: #374151;
-  padding: 0;
-  margin: 0;
-  margin-left: 1px;
-}
-.cm-s-wywiwya .cm-trailing-space-b:before {
-  content: '␣';
-  color: #374151;
-  padding: 0;
-  margin: 0;
-  margin-left: 1px;
-}
 .cm-s-wywiwya pre.CodeMirror-line::after {
   content: '↵';
   color: #374151;
+}
+
+.cm-printable-space {
+  background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUAAAAFCAYAAACNbyblAAAAAXNSR0IArs4c6QAAAE1JREFUGFdjZGBgYDRx9FNjZmCJ/8vwZ+GZ/ZtugQTUWf4z32BgZGT4z8DA8JfhjwajuWNQGyMDQyUDFPxnYGiHqGRguQET/ANSic1MAHG2GywMitPFAAAAAElFTkSuQmCC);
+  background-repeat: no-repeat;
+  background-position: center;
+  padding-left: 1px;
+  padding-right: 1px;
 }
 
 .cm-s-wywiwya .CodeMirror-activeline-background { background: rgba(255,255,255,0.1); }

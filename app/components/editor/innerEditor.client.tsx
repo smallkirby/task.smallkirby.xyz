@@ -3,21 +3,21 @@ import type { Editor as CMEditor, EditorConfiguration } from 'codemirror';
 import { fromTextArea } from 'codemirror';
 import { useState } from 'react';
 import { isClient } from '../../lib/misc';
+import { useLayoutEffect } from 'react';
 import 'codemirror/addon/edit/continuelist.js';
 import 'codemirror/addon/fold/markdown-fold.js';
 import 'codemirror/addon/fold/foldcode.js';
 import 'codemirror/addon/fold/foldgutter.js';
 import 'codemirror/addon/selection/active-line.js';
 import 'codemirror/addon/edit/closebrackets.js';
-import { useLayoutEffect } from 'react';
-require('codemirror/mode/markdown/markdown.js');
 require('codemirror/keymap/vim.js');
 require('codemirror/addon/hint/show-hint.js');
+require('../../lib/cmwrapper');
 
 const editorConfig: EditorConfiguration = {
   theme: 'wywiwya',
   lineNumbers: true,
-  mode: 'markdown',
+  mode: 'cmwrapper',
   indentUnit: 2,
   smartIndent: true,
   indentWithTabs: false,
