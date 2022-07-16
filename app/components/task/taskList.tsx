@@ -12,13 +12,13 @@ export default function TaskList({ dtask }: {dtask: DayTask}) {
 
   return (
     <div className='w-full flex-col'>
-      <div className='text-2xl'>Tasks</div>
+      <div className='text-2xl mb-2'>Tasks</div>
       {loaded ?
         <div className='ml-2'>
           {dtask.tasks.length !== 0 ?
             <ul>
               {Array(dtask.tasks.length).fill(0).map((_, ix) => (
-                <li key={ix} className='task-list-item'>
+                <li key={ix} className='task-list-item text-base'>
                   <input type='checkbox'
                     disabled={true} id={`task-${dtask.day_id}-${ix}`} checked={dtask.tasks[ix].done} />
                   <label htmlFor={`task-${dtask.day_id}-${ix}`}>

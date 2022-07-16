@@ -2,15 +2,22 @@ import type { DayTask } from 'typings/task';
 import TaskList from './taskList';
 import ProgressPanel from './progressPanel';
 
-export default function TaskAnalysisPane({ dtask }: {dtask: DayTask}) {
+export default function TaskAnalysisPane({ dtask }: {dtask: DayTask | null}) {
   return (
-    <div className='bg-skblack-dark rounded-md px-4 md:px-8 py-2 drop-shadow-2xl w-full'>
-      <div className=' md:pt-2 w-full flex flex-col md:flex-row'>
-        <div className='pb-2 pr-2 md:pr-4 border-b-2 md:border-b-0 md:border-r-2 border-skblack-light md:w-1/2 w-full'>
-          <TaskList dtask={dtask} />
+    <div className='rounded-md py-2 drop-shadow-2xl w-full'>
+      <div className='w-full flex flex-col md:flex-row'>
+        <div className='text-2xl md:border-b-0 md:w-1/2 w-full bg-skblack-dark
+          mb-2 md:mb-0 md:mr-1 p-4 md:p-8 rounded-xl drop-shadow-2xl'>
+          {dtask !== null ?
+            <TaskList dtask={dtask} /> :
+            <div className='text-skblack-light'>(task not selected)</div>
+          }
         </div>
-        <div className='pt-2 pl-2 md:pl-4 text-2xl md:w-1/2 w-full'>
-          <ProgressPanel dtask={dtask} />
+        <div className='text-2xl md:w-1/2 w-full bg-skblack-dark md:ml-1 p-4 md:p-8 rounded-xl drop-shadow-2xl'>
+          {dtask !== null ?
+            <ProgressPanel dtask={dtask} /> :
+            <div className='text-skblack-light'>(task not selected)</div>
+          }
         </div>
       </div>
     </div>

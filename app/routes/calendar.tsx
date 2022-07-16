@@ -6,6 +6,7 @@ import { fetchTasksSameMonth, todaysDayID } from 'lib/task';
 import TaskCalendar from 'components/calendar/TaskCalendar';
 import { date2dayid, dayid2date } from 'lib/date';
 import type { TaskCalendarCallbacks } from 'components/calendar/TaskCalendar';
+import TaskAnalysisPane from 'components/task/TaskAnalysisPanel';
 
 export default function Calendar() {
   const navigate = useNavigate();
@@ -46,7 +47,12 @@ export default function Calendar() {
 
   return (
     <div>
-      <TaskCalendar month={month} tasks={dtasks} callbacks={callbacks} />
+      <div>
+        <TaskCalendar month={month} tasks={dtasks} callbacks={callbacks} />
+      </div>
+      <div>
+        <TaskAnalysisPane dtask={dtasks ? dtasks.find((t) => t.day_id === dayid) ?? null : null}/>
+      </div>
     </div>
   );
 };
