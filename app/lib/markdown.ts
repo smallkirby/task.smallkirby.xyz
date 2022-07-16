@@ -14,6 +14,5 @@ const processor = new MarkdownIt({
 
 export const compile2html = (md: string): string => {
   const dirtyHtml = processor.render(md);
-  console.log(dirtyHtml);
   return DOMPurify.sanitize(dirtyHtml);
 };

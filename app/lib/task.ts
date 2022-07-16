@@ -1,20 +1,20 @@
-import type { Task, DayTask } from '../typings/task';
+import type { Task, DayTask, DayID } from '../typings/task';
 import { DateTime } from 'luxon';
 import { getProjectFirestore } from './firebase';
-import { doc, getDoc, setDoc } from 'firebase/firestore';
+import { collection, doc, getDoc, getDocs, query, setDoc, where } from 'firebase/firestore';
 import type { UID } from 'typings/user';
 import type { NoteCahe } from './localstorage';
 import { serverTimestamp } from 'firebase/firestore';
-import { timestamp2date } from './date';
+import { firstdayInMonth, firstdayNextMonty, timestamp2date } from './date';
 
 export type DtaskErrorType =
   | 'OWNER_UNKNOWN'
   | 'OPERATION_FAILED'
 ;
 
-const DAYID_FORMAT = 'yyyy-MM-dd';
+export const DAYID_FORMAT = 'yyyy-MM-dd';
 
-export const todaysDayID = (): string => (
+export const todaysDayID = (): DayID => (
   DateTime.local().toFormat(DAYID_FORMAT)
 );
 
@@ -77,6 +77,23 @@ export const fetchTodaysTask = async (uid: UID): Promise<DayTask | null> => {
   } else {
     return timestamp2date(userDocSnap.data() as DayTask, ['updatedAt', 'createdAt']);
   }
+};
+
+export const fetchTasksSameMonth = async (uid: UID, dayId: DayID): Promise<DayTask[]> => {
+  const db = getProjectFirestore();
+  const ref = collection(db, 'tasks', uid, 'tasks');
+  const qry = query(ref,
+    where('createdAt', '>=', firstdayInMonth(dayId)),
+    where('createdAt', '<', firstdayNextMonty(dayId)),
+  );
+
+  const tasksSnap = await getDocs(qry).then((snap) => snap).catch((err) => {
+    throw new DtaskError('OPERATION_FAILED', err.message);
+  });
+
+  return tasksSnap.docs.map((doc) => (
+    timestamp2date(doc.data() as DayTask, ['updatedAt', 'createdAt'])
+  ));
 };
 
 export const pushTodaysTask = async (dtask: DayTask): Promise<Date> => {
