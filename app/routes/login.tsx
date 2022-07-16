@@ -9,11 +9,13 @@ export default function Login() {
 
   useEffect(() => {
     if (user !== null) {
-      const toPath = pendingRedirect || '/';
+      const toPath = pendingRedirect ?? '/';
       clearPendingRedirect();
+      console.log(toPath);
       navigate(toPath);
     }
-  }, [user, pendingRedirect, navigate, clearPendingRedirect]);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [user, navigate, clearPendingRedirect]);
 
   return (
     <div>

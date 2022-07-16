@@ -3,10 +3,12 @@ import { useEffect, useState } from 'react';
 import type { DayTask } from 'typings/task';
 import Editor from 'components/editor/Editor';
 import useStore from 'store';
+import { useNavigate } from '@remix-run/react';
 
 export default function Today() {
   const [restoredTask, setRestoredTask] = useState<DayTask | null>(null);
-  const { user } = useStore();
+  const navigate = useNavigate();
+  const { user, setPendingRedirect } = useStore();
 
   useEffect(() => {
     (async () => {
@@ -23,9 +25,12 @@ export default function Today() {
             owner: user.uid,
           });
         }
+      } else {
+        setPendingRedirect('/today');
+        navigate('/login');
       }
     })();
-  }, [user]);
+  }, [user, navigate, setPendingRedirect]);
 
   return (
     <div>
