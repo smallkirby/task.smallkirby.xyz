@@ -11,7 +11,6 @@ export default function Login() {
     if (user !== null) {
       const toPath = pendingRedirect ?? '/';
       clearPendingRedirect();
-      console.log(toPath);
       navigate(toPath);
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps

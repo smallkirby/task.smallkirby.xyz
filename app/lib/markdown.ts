@@ -6,12 +6,14 @@ const markdownEmoji = require('markdown-it-emoji');
 const processor = new MarkdownIt({
   html: true,
   xhtmlOut: true,
-  breaks: false,
+  breaks: true,
+  linkify: true,
 }).use(markdownCheckbox, {
   liClass: 'task-list-item',
 }).use(markdownEmoji);
 
 export const compile2html = (md: string): string => {
   const dirtyHtml = processor.render(md);
+  console.log(dirtyHtml);
   return DOMPurify.sanitize(dirtyHtml);
 };
