@@ -6,7 +6,7 @@ export default function Footer() {
     >
       {/* Logo for PC */}
       <div className="flex-col ml-4 mt-2 hidden md:flex">
-        <div className="flex items-center">
+        <div className="flex items-center mx-auto px-auto">
           <img src="/img/logo.png" className="w-16 h-16 mr-4" alt='logo' />
           <p className="text-3xl">
             TASKS

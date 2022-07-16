@@ -67,16 +67,20 @@ export const cachedOrNewer = (cached: NoteCahe, remote: DayTask): string => {
   }
 };
 
-export const fetchTodaysTask = async (uid: UID): Promise<DayTask | null> => {
+export const fetchTask = async (uid: UID, dayId: DayID): Promise<DayTask | null> => {
   const db = getProjectFirestore();
-  const todaySTaskRef = doc(db, 'tasks', uid, 'tasks', todaysDayID());
-  const userDocSnap = await getDoc(todaySTaskRef);
+  const taskRef = doc(db, 'tasks', uid, 'tasks', dayId);
+  const userDocSnap = await getDoc(taskRef);
 
   if (!userDocSnap.exists()) {
     return null;
   } else {
     return timestamp2date(userDocSnap.data() as DayTask, ['updatedAt', 'createdAt']);
   }
+};
+
+export const fetchTodaysTask = async (uid: UID): Promise<DayTask | null> => {
+  return fetchTask(uid, todaysDayID());
 };
 
 export const fetchTasksSameMonth = async (uid: UID, dayId: DayID): Promise<DayTask[]> => {

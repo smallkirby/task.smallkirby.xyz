@@ -31,7 +31,9 @@ export interface EditorCallbacks {
   onChange: (value: string) => void;
 }
 
-export default function InnerEditor({ rawmd = '', callbacks }: {rawmd?: string, callbacks: EditorCallbacks}) {
+export default function InnerEditor({ rawmd = '', callbacks, disable=false }:
+  {rawmd?: string, callbacks?: EditorCallbacks, disable?: boolean},
+) {
   const editorRef = useRef<HTMLTextAreaElement>(null);
   const [winSize, setWinSize] = useState([0, 0]);
   const [isBrowser] = useState(isClient());
@@ -47,7 +49,7 @@ export default function InnerEditor({ rawmd = '', callbacks }: {rawmd?: string, 
     editor.setValue(rawmd);
 
     editor.on('change', () => {
-      callbacks.onChange(getCurrentText());
+      callbacks?.onChange(getCurrentText());
     });
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [editor]);
@@ -82,7 +84,10 @@ export default function InnerEditor({ rawmd = '', callbacks }: {rawmd?: string, 
       return;
     }
 
-    const newEditor = fromTextArea(textArea, editorConfig);
+    const newEditor = fromTextArea(textArea, {
+      ...editorConfig,
+      readOnly: disable,
+    });
     setEditor(newEditor);
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isBrowser]);
