@@ -57,11 +57,15 @@ export default function UserBadge() {
           },
         }}
       >
-        <MenuItem className='text-sm hover:bg-skblack-light' onClick={() => navigate('/profile')}>
+        <MenuItem className='text-sm hover:bg-skblack-light' onClick={() => {
+          setAnchorEl(null); navigate('/profile');
+        }}>
           <ListItemIcon><Settings fontSize='small' className='text-skwhite' /></ListItemIcon>
           Settings
         </MenuItem>
-        <MenuItem className='text-sm hover:bg-red-500' onClick={() => navigate('/logout')}>
+        <MenuItem className='text-sm hover:bg-red-500' onClick={() => {
+          setAnchorEl(null); navigate('/logout');
+        }}>
           <ListItemIcon><Logout fontSize='small' className='text-skwhite' /></ListItemIcon>
           Logout
         </MenuItem>
