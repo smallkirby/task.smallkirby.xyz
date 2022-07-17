@@ -10,13 +10,13 @@ export default function TaskAnalysisPane({ dtask }: {dtask: DayTask | null}) {
           mb-2 md:mb-0 md:mr-1 p-4 md:p-8 rounded-xl drop-shadow-2xl'>
           {dtask !== null ?
             <TaskList dtask={dtask} /> :
-            <div className='text-skblack-light'>(task not selected)</div>
+            <div className='text-skblack-light text-sm'>(task not selected)</div>
           }
         </div>
         <div className='text-2xl md:w-1/2 w-full bg-skblack-dark md:ml-1 p-4 md:p-8 rounded-xl drop-shadow-2xl'>
           {dtask !== null ?
             <ProgressPanel dtask={dtask} /> :
-            <div className='text-skblack-light'>(task not selected)</div>
+            <div className='text-skblack-light text-sm'>(task not selected)</div>
           }
         </div>
       </div>

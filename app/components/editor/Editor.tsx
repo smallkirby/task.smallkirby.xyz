@@ -2,8 +2,6 @@ import { ClientOnly } from 'remix-utils';
 import type { EditorCallbacks } from './innerEditor.client';
 import InnerEditor from './innerEditor.client';
 import { Links } from '@remix-run/react';
-import SaveButton from './saveButton';
-import SwitchModeButton from './switchModeButton';
 import type { DayTask } from '../../typings/task';
 import { cachedOrNewer, pushTodaysTask, rawmd2tasks, todaysDayID } from '../../lib/task';
 import { useCallback, useState } from 'react';
@@ -14,7 +12,8 @@ import Preview from './preview';
 import type { EditorMode } from 'typings/editor';
 import useStore from 'store';
 import TaskAnalysisPanel from 'components/task/TaskAnalysisPanel';
-import TaskClock from 'components/task/taskClock';
+import Loading from 'components/common/Loading';
+import EditorToolBar from './editorToolBar';
 
 const THROTTLE_MS = 500;
 const LOCAL_SAVECACHE_MS = 1000 * 5;
@@ -29,7 +28,7 @@ export default function Editor({ initialDtask = null, dontCache = false }:
     day_id: todaysDayID(),
     note_md: '',
     tasks: [],
-    owner: user?.uid ?? null,
+    owner: user === 'pending' || user === null ? null : user.uid,
     createdAt: new Date(),
     updatedAt: new Date(),
   });
@@ -49,6 +48,7 @@ export default function Editor({ initialDtask = null, dontCache = false }:
 
   // Set UID to dtask
   useEffect(() => {
+    if (user === 'pending') return;
     setDtask({ ...dtask, owner: user?.uid ?? null });
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user]);
@@ -87,31 +87,28 @@ export default function Editor({ initialDtask = null, dontCache = false }:
     <div>
       <Links />
 
-      <div className='flex mt-2 mx-2 md:px-2 justify-between justify-items-end'>
-        <div className='border-r-2 border-skblack-light pr-8'>
-          <TaskClock dtask={dtask} />
-        </div>
-        <div className='flex justify-end justify-items-end'>
-          <div className='mr-4'><SwitchModeButton callback={onSwitchModeClick} mode={mode} /></div>
-          <SaveButton callback={onSaveClick}/>
-        </div>
-      </div>
-      <div className='mt-2'>
-        {mode === 'edit' ? (
-          <ClientOnly fallback={<div>SSR not supported for this component</div>}>
-            {() => <InnerEditor callbacks={callbacks} rawmd={dtask.note_md} />}
-          </ClientOnly>
-        ) :
-          <div>
-            <div>
-              <TaskAnalysisPanel dtask={dtask}/>
-            </div>
-            <div className='mt-4'>
-              <Preview rawmd={dtask.note_md} />
-            </div>
+      {user === 'pending' ?
+        <Loading /> :
+        <div>
+          <EditorToolBar dtask={dtask} mode={mode} onSaveClick={onSaveClick} onSwitchModeClick={onSwitchModeClick} />
+          <div className='mt-2'>
+            {mode === 'edit' ? (
+              <ClientOnly fallback={<div>SSR not supported for this component</div>}>
+                {() => <InnerEditor callbacks={callbacks} rawmd={dtask.note_md} />}
+              </ClientOnly>
+            ) :
+              <div>
+                <div>
+                  <TaskAnalysisPanel dtask={dtask}/>
+                </div>
+                <div className='mt-4'>
+                  <Preview rawmd={dtask.note_md} />
+                </div>
+              </div>
+            }
           </div>
-        }
-      </div>
+        </div>
+      }
     </div>
   );
 }

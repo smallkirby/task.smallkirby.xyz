@@ -20,6 +20,7 @@ export default function Calendar() {
   const callbacks: TaskCalendarCallbacks = {
     onMonthRangeChange: (date: Date): void => {
       (async () => {
+        if (user === 'pending') return;
         const uid = user?.uid;
         if (!uid) return;
         setDtasks(await fetchTasksSameMonth(uid, date2dayid(date)));
@@ -44,6 +45,7 @@ export default function Calendar() {
 
   useEffect(() => {
     (async () => {
+      if (user === 'pending') return;
       const uid = user?.uid;
       if (!uid) return;
       const fetchedTasks = await fetchTasksSameMonth(uid, dayid);

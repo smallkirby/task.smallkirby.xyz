@@ -13,9 +13,8 @@ export default function Preview(props: {rawmd: string }) {
       h-full w-full drop-shadow-2xl'
     >
       <link rel='stylesheet' href='/css/preview.css'></link>
-      {props.rawmd.length !== 0 ?
-        <div dangerouslySetInnerHTML={{ __html: html }}></div> :
-        <div className='text-lg text-skblack-light'>(No tasks registered)</div>
+      {props.rawmd.length !== 0 &&
+        <div dangerouslySetInnerHTML={{ __html: html }}></div>
       }
     </div>
   );

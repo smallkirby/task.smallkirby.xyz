@@ -25,6 +25,7 @@ export const watchUserLoginState = (): void => {
 
   auth.onAuthStateChanged(async (fbuser) => {
     if (fbuser) {
+      useStore.setState({ user: 'pending' });
       useStore.setState({ fbuser });
       const user = await fetchOrCreateUser(fbuser.uid);
       useStore.setState({ user });

@@ -6,6 +6,8 @@ import Menu from '@mui/material/Menu';
 import { MenuItem, ListItemIcon } from '@mui/material';
 import Settings from '@mui/icons-material/Settings';
 import Logout from '@mui/icons-material/Logout';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faQuestion } from '@fortawesome/free-solid-svg-icons';
 
 export default function UserBadge() {
   const { fbuser } = useStore();
@@ -33,9 +35,15 @@ export default function UserBadge() {
         aria-haspopup='true'
         aria-expanded={open ? 'true' : undefined}
       >
-        <img src={fbuser?.photoURL || '/img/question.png'} alt={fbuser?.displayName || 'Not Logged In'}
-          className={`h-6 md:h-8 rounded-full ${fbuser === null ? 'border-2 border-skblack-light p-2' : ''}`}
-        />
+        {fbuser === null || fbuser === 'pending' ?
+          <FontAwesomeIcon
+            icon={faQuestion}
+            className='text-skwhite border-2 border-skblack-light p-2 rounded-full h-6 md:h-8'
+          /> :
+          <img src={fbuser.photoURL || ''} alt={fbuser.displayName || ''}
+            className={'h-6 md:h-8 rounded-full'}
+          />
+        }
       </Button>
 
       <Menu

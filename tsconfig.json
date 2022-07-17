@@ -1,5 +1,5 @@
 {
-  "include": ["remix.env.d.ts", "**/*.ts", "**/*.tsx", "app/lib/mdspace.js"],
+  "include": ["remix.env.d.ts", "**/*.ts", "**/*.tsx", "app/lib/mdspace.js", "app/lib/cmwrapper.js"],
   "compilerOptions": {
     "lib": ["DOM", "DOM.Iterable", "ES2019"],
     "isolatedModules": true,

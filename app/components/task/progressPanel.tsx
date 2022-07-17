@@ -7,7 +7,7 @@ export default function ProgressPanel({ dtask }: {dtask: DayTask}) {
   const [progress, setProgress] = useState(0.0);
 
   const formatProgress = (progress: number) => (
-    (progress * 100.0).toFixed(1)
+    isNaN(progress) ? '0' : (progress * 100).toFixed(1)
   );
 
   useEffect(() => {
@@ -27,14 +27,12 @@ export default function ProgressPanel({ dtask }: {dtask: DayTask}) {
       {loaded ?
         <div>
           <div className='ml-2 text-base'>
-            Completed <span className='text-skred'>{formatProgress(progress)}%</span> of tasks
+            Completed <span className={`${dtask.tasks.length === 0 ? 'text-skred-dark' : 'text-skred'}`}>
+              {formatProgress(progress)}%</span> of tasks
           </div>
-          {dtask.tasks.length !== 0 ?
+          {dtask.tasks.length !== 0 &&
             <div className='h-32'>
               <TaskCompletionBar dtask={dtask} />
-            </div> :
-            <div className='text-skblack-light text-lg text-center mt-2'>
-              (No tasks registered)
             </div>
           }
         </div>:

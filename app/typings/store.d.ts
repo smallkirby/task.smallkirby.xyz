@@ -2,7 +2,7 @@ import type { User as FBUser } from 'firebase/auth';
 import type { User } from './user';
 
 export type StoreType = {
-  fbuser: FBUser | null;
+  fbuser: FBUser | null | 'pending';
   setFBUser: (user: FBUser) => void;
   clearFBUser: () => void;
 
@@ -10,7 +10,7 @@ export type StoreType = {
   setPendingRedirect: (path: string) => void;
   clearPendingRedirect: () => void;
 
-  user: User | null;
+  user: User | null | 'pending';
   setUser: (user: FBUser) => void;
   clearUser: () => void;
 }

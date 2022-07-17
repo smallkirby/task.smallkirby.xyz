@@ -4,6 +4,7 @@ import type { DayTask } from 'typings/task';
 import Editor from 'components/editor/Editor';
 import useStore from 'store';
 import { useNavigate } from '@remix-run/react';
+import Loading from 'components/common/Loading';
 
 export default function Today() {
   const [restoredTask, setRestoredTask] = useState<DayTask | null>(null);
@@ -12,6 +13,7 @@ export default function Today() {
 
   useEffect(() => {
     (async () => {
+      if (user === 'pending') return;
       const uid = user?.uid;
       if (uid) {
         const todaysTask = await fetchTodaysTask(uid);
@@ -35,7 +37,7 @@ export default function Today() {
   return (
     <div>
       {restoredTask === null ?
-        <div>Loading...</div> :
+        <Loading /> :
         <Editor initialDtask={restoredTask} />
       }
     </div>

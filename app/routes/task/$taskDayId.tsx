@@ -5,6 +5,7 @@ import { fetchTask } from 'lib/task';
 import useStore from 'store';
 import TaskNotFound from 'components/task/TaskNotFound';
 import NonEditableEditor from 'components/editor/NonEditableEditor';
+import Loading from 'components/common/Loading';
 
 export default function TaskPage() {
   const params = useParams();
@@ -15,6 +16,7 @@ export default function TaskPage() {
 
   useEffect(() => {
     (async () => {
+      if (user === 'pending') return;
       const uid = user?.uid;
       if (!uid) {
         setPendingRedirect(location.pathname);
@@ -33,12 +35,17 @@ export default function TaskPage() {
 
   return (
     <div>
-      {user?.uid && dtask ?
+      {user === 'pending' ?
+        <Loading />:
         <div>
-          <NonEditableEditor dtask={dtask} />
-        </div> :
-        <div className='pt-12'>
-          <TaskNotFound />
+          {user !== null && dtask ?
+            <div>
+              <NonEditableEditor dtask={dtask} />
+            </div> :
+            <div className='pt-12'>
+              <TaskNotFound />
+            </div>
+          }
         </div>
       }
     </div>
