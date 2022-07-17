@@ -1,6 +1,9 @@
 import type { DayTask } from 'typings/task';
+import { useNavigate } from '@remix-run/react';
 
 export default function NavigateToTask({ task }: {task: DayTask | null}) {
+  const navigate = useNavigate();
+
   return (
     <button
       className='bg-skblack-dark rounded-xl drop-shadow-2xl py-2 px-6 text-xl text-skwhite
@@ -8,7 +11,7 @@ export default function NavigateToTask({ task }: {task: DayTask | null}) {
       disabled:text-skblack-light disabled:hover:bg-skblack-dark'
       disabled={task === null}
       onClick={() => {
-        window.open(`/task/${task?.day_id}`, '_blank');
+        navigate(`/task/${task?.day_id}`);
       }}
     >
       Check this task

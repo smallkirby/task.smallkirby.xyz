@@ -14,7 +14,7 @@ export default function EditorToolBar(
 
   return (
     <div className='flex mt-2 px-4 justify-between justify-items-end bg-skblack
-      rounded-md drop-shadow-2xl border-b-2 border-skblack-light pb-1'
+      rounded-md drop-shadow-2xl border-b-2 border-skblack-light pb-1 h-12'
     >
       <div className='pr-8'>
         <TaskClock dtask={dtask} />

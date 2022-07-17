@@ -89,8 +89,10 @@ export default function Editor({ initialDtask = null, dontCache = false }:
 
       {user === 'pending' ?
         <Loading /> :
-        <div>
-          <EditorToolBar dtask={dtask} mode={mode} onSaveClick={onSaveClick} onSwitchModeClick={onSwitchModeClick} />
+        <div className='w-full'>
+          <div>
+            <EditorToolBar dtask={dtask} mode={mode} onSaveClick={onSaveClick} onSwitchModeClick={onSwitchModeClick} />
+          </div>
           <div className='mt-2'>
             {mode === 'edit' ? (
               <ClientOnly fallback={<div>SSR not supported for this component</div>}>
