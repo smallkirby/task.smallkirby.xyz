@@ -29,16 +29,19 @@ export default function UserBadge() {
   };
 
   return (
-    <div>
+    <div className='pt-0 mt-0'>
       <Button className='my-auto' onClick={handleClick} id='user-badge'
         aria-controls={open ? 'user-badge' : undefined}
         aria-haspopup='true'
         aria-expanded={open ? 'true' : undefined}
+        sx={{
+          paddingTop: 1,
+        }}
       >
         {fbuser === null || fbuser === 'pending' ?
           <FontAwesomeIcon
             icon={faQuestion}
-            className='text-skwhite border-2 border-skblack-light p-2 rounded-full h-6 md:h-8'
+            className='text-skwhite border-2 border-skblack-light rounded-full p-2 h-4 w-4'
           /> :
           <img src={fbuser.photoURL || ''} alt={fbuser.displayName || ''}
             className={'h-6 md:h-8 rounded-full'}
