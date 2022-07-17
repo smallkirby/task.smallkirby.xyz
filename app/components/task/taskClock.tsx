@@ -6,7 +6,7 @@ const dayid2printable = (dayid: DayID) => (
 
 export default function TaskClock({ dtask }: {dtask: DayTask}) {
   return (
-    <div className='h-full my-auto py-auto text-center'>
+    <div className='h-full my-auto py-auto text-center text-skwhite-dark'>
       <p className='text-xl pt-2'>{dayid2printable(dtask.day_id)}</p>
     </div>
   );

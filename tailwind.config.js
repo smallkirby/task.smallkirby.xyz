@@ -20,7 +20,7 @@ module.exports = {
         skwhite: {
           light: '#FAFAEC',
           DEFAULT: '#FBF1C7',
-          dark: '#5F4E07',
+          dark: '#FBF1C7B9',
         },
         skgreen: {
           light: '#9CE08F',

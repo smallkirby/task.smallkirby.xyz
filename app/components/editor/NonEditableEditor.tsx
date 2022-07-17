@@ -20,7 +20,7 @@ export default function NonEditableEditor({ dtask }:{ dtask: DayTask },
     <div>
       <Links />
 
-      <div className='mt-2 mx-2 md:px-2'>
+      <div className='mt-2'>
         <EditorToolBar dtask={dtask} disable={true} onSwitchModeClick={onSwitchModeClick} mode={mode} />
       </div>
       <div className='mt-2'>

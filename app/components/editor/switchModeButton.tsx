@@ -5,7 +5,7 @@ import type { EditorMode } from 'typings/editor';
 export default function SwitchModeButton({ callback, mode }: {callback: () => void, mode: EditorMode}) {
   return (
     <button
-      className='w-6 h-6 rounded-md text-lg text-skwhite my-auto'
+      className='w-6 rounded-md text-lg text-skwhite mb-0 pb-0 mr-4'
       onClick={callback}
     >
       <FontAwesomeIcon icon={mode === 'edit' ? faEye : faPen }
