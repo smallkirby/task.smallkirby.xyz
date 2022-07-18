@@ -52,11 +52,20 @@ export const loader: LoaderFunction = () => {
   return json(config);
 };
 
-export const meta: MetaFunction = () => ({
-  charset: 'utf-8',
-  title: 'TASKS',
-  viewport: 'width=device-width,initial-scale=1',
-});
+export const meta: MetaFunction = () => ( {
+  'charset': 'utf-8',
+  'title': 'TASKS',
+  'description': 'Uouo fish life :)',
+  'viewport': 'width=device-width,initial-scale=1',
+  'og:title': 'TASKS',
+  'og:url': 'https://task.smallkirby.xyz',
+  'og:description': 'Uouo fish life :)',
+  'og:image': 'https://task.smallkirby.xyz/img/logo.png',
+  'og:site_name': 'task.smallkirby.xyz',
+  'twitter:card': 'summary_large_image',
+  'twitter:creator': '@smallkirby',
+  'twitter:site': '@smallkirby',
+} );
 
 export default function App() {
   const config = useLoaderData<GlobalConfig>();
