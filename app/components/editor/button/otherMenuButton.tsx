@@ -6,7 +6,9 @@ export interface OtherMenuCallbaks {
   onCopyPreviousClicked?: () => void;
 };
 
-export default function OtherMenuButton({ callbacks }: {callbacks: OtherMenuCallbaks}) {
+export default function OtherMenuButton({ callbacks, disable = false }: {
+  callbacks: OtherMenuCallbaks, disable?: boolean
+}) {
   const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null);
   const open = Boolean(anchorEl);
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
@@ -50,15 +52,17 @@ export default function OtherMenuButton({ callbacks }: {callbacks: OtherMenuCall
         }}
         className='text-skwhite'
       >
-        <MenuItem className='text-sm hover:bg-skblack-light' onClick={() => {
-          setAnchorEl(null);
-          callbacks.onCopyPreviousClicked?.();
-        }}>
-          <ListItemIcon className='text-skwhite'>
-            <ContentCopy className='pr-2'/>
-            Copy from previous day
-          </ListItemIcon>
-        </MenuItem>
+        {!disable &&
+          <MenuItem className='text-sm hover:bg-skblack-light' onClick={() => {
+            setAnchorEl(null);
+            callbacks.onCopyPreviousClicked?.();
+          }}>
+            <ListItemIcon className='text-skwhite'>
+              <ContentCopy className='pr-2'/>
+              Copy from previous day
+            </ListItemIcon>
+          </MenuItem>
+        }
       </Menu>
     </div>
   );

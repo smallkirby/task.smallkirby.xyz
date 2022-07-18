@@ -19,15 +19,18 @@ export default function EditorToolBar(
     <div className='flex mt-2 px-4 justify-between justify-items-end bg-skblack
       rounded-md drop-shadow-2xl border-b-2 border-skblack-light pb-1 h-12'
     >
-      <div className='pr-8'>
+      <div className='pr-8 flex justify-items-end'>
         <TaskClock dtask={dtask} />
+        {disable &&
+          <div className='ml-2 py-auto my-auto pt-1 text-skblack-light'>(Read-only)</div>
+        }
       </div>
       <div className='flex justify-end justify-items-end'>
         <SwitchModeButton callback={() => callbacks?.onSwitchModeClick?.()} mode={mode} />
         {!disable &&
           <SaveButton callback={() => callbacks?.onSaveClick?.() }/>
         }
-        <OtherMenuButton callbacks={{
+        <OtherMenuButton disable={disable} callbacks={{
           onCopyPreviousClicked: () => callbacks?.onCopyPreviousClicked?.(),
         }} />
       </div>
