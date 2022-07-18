@@ -3,7 +3,7 @@ import type { EditorCallbacks } from './innerEditor.client';
 import InnerEditor from './innerEditor.client';
 import { Links } from '@remix-run/react';
 import type { DayTask } from '../../typings/task';
-import { cachedOrNewer, pushTodaysTask, rawmd2tasks, todaysDayID } from '../../lib/task';
+import { cachedOrNewer, fetchLatestTask, pushTodaysTask, rawmd2tasks, todaysDayID } from '../../lib/task';
 import { useCallback, useRef, useState } from 'react';
 import { useEffect } from 'react';
 import { throttle } from 'lodash';
@@ -116,7 +116,21 @@ export default function Editor({ initialDtask = null, dontCache = false }:
         <Loading /> :
         <div className='w-full'>
           <div>
-            <EditorToolBar dtask={dtask} mode={mode} onSaveClick={onSaveClick} onSwitchModeClick={onSwitchModeClick} />
+            <EditorToolBar dtask={dtask} mode={mode}
+              callbacks={{
+                onSaveClick,
+                onSwitchModeClick,
+                onCopyPreviousClicked: () => {
+                  (async () => {
+                    const uid = user?.uid ?? null;
+                    if (!uid) return;
+                    const prevTask = await fetchLatestTask(uid);
+                    if (prevTask) setDtask({ ...dtask, note_md: prevTask.note_md });
+                    setIsDirty(true);
+                  })();
+                },
+              }}
+            />
           </div>
           <div className='mt-2'>
             {mode === 'edit' ? (

@@ -1,7 +1,7 @@
 import type { Task, DayTask, DayID } from '../typings/task';
 import { DateTime } from 'luxon';
 import { getProjectFirestore } from './firebase';
-import { collection, doc, getDoc, getDocs, query, setDoc, where } from 'firebase/firestore';
+import { collection, doc, getDoc, getDocs, limit, query, setDoc, where, orderBy } from 'firebase/firestore';
 import type { UID } from 'typings/user';
 import type { NoteCahe } from './localstorage';
 import { serverTimestamp } from 'firebase/firestore';
@@ -81,6 +81,29 @@ export const fetchTask = async (uid: UID, dayId: DayID): Promise<DayTask | null>
 
 export const fetchTodaysTask = async (uid: UID): Promise<DayTask | null> => {
   return fetchTask(uid, todaysDayID());
+};
+
+// fetch latest task before today
+export const fetchLatestTask = async (uid: UID): Promise<DayTask | null> => {
+  const db = getProjectFirestore();
+  const ref = collection(db, 'tasks', uid, 'tasks');
+  const qry = query(ref,
+    orderBy('createdAt', 'desc'),
+    limit(2),
+  );
+  const tasksSnap = await getDocs(qry).then((snap) => snap).catch((err) => {
+    throw new DtaskError('OPERATION_FAILED', err.message);
+  });
+  const tasks = tasksSnap.docs.map((doc) => timestamp2date(doc.data() as DayTask, ['updatedAt', 'createdAt']));
+  switch (tasks.length) {
+  case 1:
+    return tasks[0];
+  case 2:
+    if (tasks[0].day_id === todaysDayID()) return tasks[1];
+    else return tasks[0];
+  default:
+    return null;
+  }
 };
 
 export const fetchTasksSameMonth = async (uid: UID, dayId: DayID): Promise<DayTask[]> => {
