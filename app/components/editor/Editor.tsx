@@ -4,7 +4,7 @@ import InnerEditor from './innerEditor.client';
 import { Links } from '@remix-run/react';
 import type { DayTask } from '../../typings/task';
 import { cachedOrNewer, pushTodaysTask, rawmd2tasks, todaysDayID } from '../../lib/task';
-import { useCallback, useState } from 'react';
+import { useCallback, useRef, useState } from 'react';
 import { useEffect } from 'react';
 import { throttle } from 'lodash';
 import { setNoteCache, getNoteCache, removeNoteCache } from 'lib/localstorage';
@@ -15,14 +15,16 @@ import TaskAnalysisPanel from 'components/task/TaskAnalysisPanel';
 import Loading from 'components/common/Loading';
 import EditorToolBar from './editorToolBar';
 
-const THROTTLE_MS = 500;
-const LOCAL_SAVECACHE_MS = 1000 * 5;
+const THROTTLE_MS = 500; // 500ms
+const LOCAL_SAVECACHE_MS = 1000 * 5; // 5s
+const REMOTE_SAVE_MS = 1000 * 10; // 10s
 
 export default function Editor({ initialDtask = null, dontCache = false }:
   { initialDtask?: DayTask | null, dontCache?: boolean },
 ) {
   const { user } = useStore();
   const [isDirty, setIsDirty] = useState(false);
+  const [isDirtyRemote, setIsDirtyRemote] = useState(false);
   const [mode, setMode] = useState<EditorMode>('view');
   const [dtask, setDtask] = useState<DayTask>(initialDtask || {
     day_id: todaysDayID(),
@@ -32,17 +34,33 @@ export default function Editor({ initialDtask = null, dontCache = false }:
     createdAt: new Date(),
     updatedAt: new Date(),
   });
+  const saveCacheRef = useRef<() => void>();
+  const saveRemoteRef = useRef<() => void>();
   const saveCache = useCallback(() => {
     if (isDirty) {
       setNoteCache(dtask.note_md, dtask.day_id);
       setIsDirty(false);
     }
   }, [isDirty, dtask]);
+  const saveRemote = useCallback(async () => {
+    if (isDirtyRemote) {
+      setIsDirtyRemote(false);
+      await pushTodaysTask(dtask);
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isDirtyRemote, dtask]);
+
+  // Update ref instance of callbacks
+  useEffect(() => {
+    saveCacheRef.current = saveCache;
+    saveRemoteRef.current = saveRemote;
+  }, [saveCache, saveRemote]);
 
   const callbacks: EditorCallbacks = {
     onChange: throttle((note) => {
       setDtask({ ...dtask, note_md: note, tasks: rawmd2tasks(note) });
       setIsDirty(true);
+      setIsDirtyRemote(true);
     }, THROTTLE_MS),
   };
 
@@ -56,9 +74,16 @@ export default function Editor({ initialDtask = null, dontCache = false }:
   // Set handler to save note cache to local storage
   useEffect(() => {
     if (dontCache) return;
-    const saveCacheIntervalHdlr = setInterval(saveCache, LOCAL_SAVECACHE_MS);
+    const saveCacheIntervalHdlr = setInterval(() => saveCacheRef.current?.(), LOCAL_SAVECACHE_MS);
     return () => clearInterval(saveCacheIntervalHdlr);
-  }, [dontCache, saveCache]);
+  }, [dontCache]);
+
+  // Set handler to save note to remote server
+  useEffect(() => {
+    if (dontCache) return;
+    const saveRemoteIntervalHdlr = setInterval(() => saveRemoteRef.current?.(), REMOTE_SAVE_MS);
+    return () => clearInterval(saveRemoteIntervalHdlr);
+  }, [dontCache]);
 
   // Restoe cached note from local storage
   useEffect(() => {
