@@ -4,6 +4,8 @@ import SaveButton from './button/saveButton';
 import SwitchModeButton from './button/switchModeButton';
 import type { EditorMode } from 'typings/editor';
 import OtherMenuButton from './button/otherMenuButton';
+import type { DirtySyncStatus } from './button/dirtyIndicator';
+import DirtyIndicator from './button/dirtyIndicator';
 
 export interface EditorToolbarCallbacks {
   onSaveClick?: () => void;
@@ -12,8 +14,8 @@ export interface EditorToolbarCallbacks {
 };
 
 export default function EditorToolBar(
-  { disable = false, dtask, mode, callbacks }: {
-  disable?: boolean, dtask: DayTask, mode: EditorMode, callbacks: EditorToolbarCallbacks
+  { disable = false, dtask, mode, callbacks, indStatus }: {
+  disable?: boolean, dtask: DayTask, mode: EditorMode, callbacks: EditorToolbarCallbacks, indStatus: DirtySyncStatus,
 }) {
   return (
     <div className='flex mt-2 px-4 justify-between justify-items-end bg-skblack
@@ -21,8 +23,11 @@ export default function EditorToolBar(
     >
       <div className='pr-8 flex justify-items-end'>
         <TaskClock dtask={dtask} />
-        {disable &&
-          <div className='ml-2 py-auto my-auto pt-1 text-skblack-light'>(Read-only)</div>
+        {disable ?
+          <div className='ml-2 py-auto my-auto pt-1 text-skblack-light'>(Read-only)</div> :
+          <div className='my-auto ml-4'>
+            <DirtyIndicator status={indStatus} />
+          </div>
         }
       </div>
       <div className='flex justify-end justify-items-end'>

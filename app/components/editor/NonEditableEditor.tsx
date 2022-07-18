@@ -21,7 +21,7 @@ export default function NonEditableEditor({ dtask }:{ dtask: DayTask },
       <Links />
 
       <div className='mt-2'>
-        <EditorToolBar dtask={dtask} disable={true} mode={mode}
+        <EditorToolBar dtask={dtask} disable={true} mode={mode} indStatus='synced'
           callbacks={{
             onSwitchModeClick: onSwitchModeClick,
           }}

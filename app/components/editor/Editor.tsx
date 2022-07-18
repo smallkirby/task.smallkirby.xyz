@@ -14,6 +14,7 @@ import useStore from 'store';
 import TaskAnalysisPanel from 'components/task/TaskAnalysisPanel';
 import Loading from 'components/common/Loading';
 import EditorToolBar from './editorToolBar';
+import type { DirtySyncStatus } from './button/dirtyIndicator';
 
 const THROTTLE_MS = 500; // 500ms
 const LOCAL_SAVECACHE_MS = 1000 * 5; // 5s
@@ -26,6 +27,7 @@ export default function Editor({ initialDtask = null, dontCache = false }:
   const [isDirty, setIsDirty] = useState(false);
   const [isDirtyRemote, setIsDirtyRemote] = useState(false);
   const [mode, setMode] = useState<EditorMode>('view');
+  const [indicatorStatus, setIndicatorStatus] = useState<DirtySyncStatus>('synced');
   const [dtask, setDtask] = useState<DayTask>(initialDtask || {
     day_id: todaysDayID(),
     note_md: '',
@@ -45,10 +47,17 @@ export default function Editor({ initialDtask = null, dontCache = false }:
   const saveRemote = useCallback(async () => {
     if (isDirtyRemote) {
       setIsDirtyRemote(false);
+      setIndicatorStatus('syncing');
       await pushTodaysTask(dtask);
+      setIndicatorStatus('synced');
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isDirtyRemote, dtask]);
+
+  useEffect(() => {
+    if (!isDirtyRemote) setIndicatorStatus('synced');
+    else setIndicatorStatus('dirty');
+  }, [isDirty, isDirtyRemote]);
 
   // Update ref instance of callbacks
   useEffect(() => {
@@ -99,9 +108,11 @@ export default function Editor({ initialDtask = null, dontCache = false }:
   }, []);
 
   const onSaveClick = async () => {
+    setIndicatorStatus('syncing');
     const updatedAt = await pushTodaysTask(dtask);
     removeNoteCache(dtask.day_id);
     setDtask({ ...dtask, updatedAt });
+    setIndicatorStatus('synced');
   };
 
   const onSwitchModeClick = () => {
@@ -116,7 +127,7 @@ export default function Editor({ initialDtask = null, dontCache = false }:
         <Loading /> :
         <div className='w-full'>
           <div>
-            <EditorToolBar dtask={dtask} mode={mode}
+            <EditorToolBar dtask={dtask} mode={mode} indStatus={indicatorStatus}
               callbacks={{
                 onSaveClick,
                 onSwitchModeClick,

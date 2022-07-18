@@ -1,3 +1,5 @@
+import { Tooltip } from '@mui/material';
+
 export default function SaveButton({ callback }: {callback: () => void}) {
   return (
     <button
@@ -6,7 +8,9 @@ export default function SaveButton({ callback }: {callback: () => void}) {
         transition-all duration-500'
       onClick={callback}
     >
-      Save
+      <Tooltip title="Push changes">
+        <div>Save</div>
+      </Tooltip>
     </button>
   );
 };
