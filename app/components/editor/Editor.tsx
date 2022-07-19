@@ -17,6 +17,8 @@ import TaskAnalysisPanel from 'components/task/TaskAnalysisPanel';
 import Loading from 'components/common/Loading';
 import EditorToolBar from './editorToolBar';
 import type { DirtySyncStatus } from './button/dirtyIndicator';
+import type { EmojiInstance } from 'lib/cmemoji';
+import axios from 'axios';
 
 const THROTTLE_MS = 500; // 500ms
 const LOCAL_SAVECACHE_MS = 1000 * 5; // 5s
@@ -30,6 +32,7 @@ export default function Editor({ initialDtask = null, dontCache = false }:
   const [isDirtyRemote, setIsDirtyRemote] = useState(false);
   const [mode, setMode] = useState<EditorMode>('view');
   const [indicatorStatus, setIndicatorStatus] = useState<DirtySyncStatus>('synced');
+  const [emojiList, setEmojiList] = useState<EmojiInstance[]>([]);
   const [dtask, setDtask] = useState<DayTask>(initialDtask || {
     day_id: todaysDayID(),
     note_md: '',
@@ -73,6 +76,23 @@ export default function Editor({ initialDtask = null, dontCache = false }:
     saveCacheRef.current = saveCache;
     saveRemoteRef.current = saveRemote;
   }, [saveCache, saveRemote]);
+
+  // Fetch emoji list
+  useEffect(() => {
+    (async () => {
+      if (emojiList.length !== 0) return;
+      const res = await axios.get('https://api.github.com/emojis');
+      if (res.status !== 200) {
+        console.log('Failed to fetch emoji list.');
+        return;
+      }
+      console.log(res.data);
+      setEmojiList(Object.keys(res.data).map((key) => (
+        { name: key, url: res.data[key] }
+      )));
+    })();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const callbacks: EditorCallbacks = {
     onChange: throttle((note) => {
@@ -155,7 +175,7 @@ export default function Editor({ initialDtask = null, dontCache = false }:
           <div className='mt-2'>
             {mode === 'edit' ? (
               <ClientOnly fallback={<div>SSR not supported for this component</div>}>
-                {() => <InnerEditor callbacks={callbacks} rawmd={dtask.note_md} />}
+                {() => <InnerEditor callbacks={callbacks} rawmd={dtask.note_md} emojiList={emojiList} />}
               </ClientOnly>
             ) :
               <div>

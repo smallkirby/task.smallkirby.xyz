@@ -10,6 +10,8 @@ import 'codemirror/addon/fold/foldcode.js';
 import 'codemirror/addon/fold/foldgutter.js';
 import 'codemirror/addon/selection/active-line.js';
 import 'codemirror/addon/edit/closebrackets.js';
+import { emojiCompletion } from 'lib/cmemoji';
+import type { EmojiInstance } from 'lib/cmemoji';
 require('codemirror/keymap/vim.js');
 require('codemirror/addon/hint/show-hint.js');
 require('../../lib/cmwrapper');
@@ -31,8 +33,8 @@ export interface EditorCallbacks {
   onChange: (value: string) => void;
 }
 
-export default function InnerEditor({ rawmd = '', callbacks, disable=false }:
-  {rawmd?: string, callbacks?: EditorCallbacks, disable?: boolean},
+export default function InnerEditor({ rawmd = '', callbacks, disable=false, emojiList }:
+  {rawmd?: string, callbacks?: EditorCallbacks, disable?: boolean, emojiList?: EmojiInstance[]},
 ) {
   const editorRef = useRef<HTMLTextAreaElement>(null);
   const [winSize, setWinSize] = useState([0, 0]);
@@ -48,11 +50,12 @@ export default function InnerEditor({ rawmd = '', callbacks, disable=false }:
     if (!editor) return;
     editor.setValue(rawmd);
 
+    editor.on('change', (cm) => emojiCompletion(emojiList ?? [], cm));
     editor.on('change', () => {
       callbacks?.onChange(getCurrentText());
     });
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [editor]);
+  }, [editor, emojiList]);
 
   // Watch editor size
   useLayoutEffect(() => {

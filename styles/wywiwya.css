@@ -72,3 +72,13 @@
 .cm-s-wywiwya .CodeMirror-activeline-background { background: rgba(255,255,255,0.1); }
 .cm-s-wywiwya .CodeMirror-matchingbracket { text-decoration: underline; color: white !important; }
 
+li.CodeMirror-hint {
+  text-align: left;
+}
+
+.codemirror-emoji-hint {
+  float: left;
+  margin-top: 4px;
+  margin-right: 4px;
+}
+
