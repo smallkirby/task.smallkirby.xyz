@@ -1,8 +1,11 @@
+import { Tooltip } from '@mui/material';
 import { compile2html } from 'lib/markdown';
 import { useEffect, useState } from 'react';
 import type { DayTask, Task } from 'typings/task';
 
-export default function TaskList({ dtask, onTaskClick }: {dtask: DayTask, onTaskClick: (task: Task) => void}) {
+export default function TaskList({ dtask, onTaskClick = null }: {
+  dtask: DayTask, onTaskClick?: ((task: Task) => void) | null
+}) {
   const [loaded, setLoaded] = useState(false);
 
   useEffect(() => {
@@ -17,13 +20,18 @@ export default function TaskList({ dtask, onTaskClick }: {dtask: DayTask, onTask
     if (!htmlFor || !htmlFor.startsWith('cbx_')) return;
     const index = parseInt(elm.htmlFor.split('cbx_')[1] || '-1', 10);
     if (index !== -1) {
-      onTaskClick(dtask.tasks[index]);
+      onTaskClick?.(dtask.tasks[index]);
     }
   };
 
   return (
     <div className='w-full flex-col'>
-      <div className='text-2xl mb-2'>Tasks</div>
+      {onTaskClick ?
+        <Tooltip title='Click checkbox to complete a TODO'>
+          <div className='text-2xl mb-2'>Tasks</div>
+        </Tooltip> :
+        <div className='text-2xl mb-2'>Tasks</div>
+      }
       {loaded ?
         <div className='ml-2'>
           {dtask.tasks.length !== 0 ?

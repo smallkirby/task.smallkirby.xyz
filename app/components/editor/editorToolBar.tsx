@@ -33,7 +33,7 @@ export default function EditorToolBar(
       <div className='flex justify-end justify-items-end'>
         <SwitchModeButton callback={() => callbacks?.onSwitchModeClick?.()} mode={mode} />
         {!disable &&
-          <SaveButton callback={() => callbacks?.onSaveClick?.() }/>
+          <SaveButton callback={() => callbacks?.onSaveClick?.() } disable={indStatus !== 'dirty'} />
         }
         <OtherMenuButton disable={disable} callbacks={{
           onCopyPreviousClicked: () => callbacks?.onCopyPreviousClicked?.(),

@@ -2,8 +2,8 @@ import type { DayTask, Task } from 'typings/task';
 import TaskList from './taskList';
 import ProgressPanel from './progressPanel';
 
-export default function TaskAnalysisPane({ dtask, onTaskClick }: {
-dtask: DayTask | null, onTaskClick: (task: Task) => void
+export default function TaskAnalysisPane({ dtask, onTaskClick = null }: {
+dtask: DayTask | null, onTaskClick?: ((task: Task) => void) | null
 }) {
   return (
     <div className='rounded-md py-2 drop-shadow-2xl w-full'>
