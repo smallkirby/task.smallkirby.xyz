@@ -104,6 +104,7 @@ li {
 
 li.task-list-item {
   list-style: none;
+  line-height: 1.0;
 }
 
 li.task-list-item input[type=checkbox] {
@@ -115,6 +116,7 @@ li.task-list-item input[type=checkbox]+label {
   position: relative;
   cursor: pointer;
   padding: 5px 10px;
+  display: inline-block;
 }
 
 li.task-list-item input[type=checkbox]+label::before {
@@ -138,7 +140,7 @@ li.task-list-item input[type=checkbox]+label::after {
   position: absolute;
   width: 8px;
   height: 12px;
-  top: 50%;
+  top: 13px;
   left: -10px;
   border-right: 3px solid #FF3CC7;
   border-bottom: 5px solid #FF3CC7;
