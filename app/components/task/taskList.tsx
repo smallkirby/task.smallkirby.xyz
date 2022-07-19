@@ -1,3 +1,4 @@
+import { compile2html } from 'lib/markdown';
 import { useEffect, useState } from 'react';
 import type { DayTask } from 'typings/task';
 
@@ -16,17 +17,12 @@ export default function TaskList({ dtask }: {dtask: DayTask}) {
       {loaded ?
         <div className='ml-2'>
           {dtask.tasks.length !== 0 ?
-            <ul>
-              {Array(dtask.tasks.length).fill(0).map((_, ix) => (
-                <li key={ix} className='task-list-item text-base'>
-                  <input type='checkbox'
-                    disabled={true} id={`task-${dtask.day_id}-${ix}`} checked={dtask.tasks[ix].done} />
-                  <label htmlFor={`task-${dtask.day_id}-${ix}`}>
-                    {dtask.tasks[ix].taskname}
-                  </label>
-                </li>
-              ))}
-            </ul> :
+            <div
+              className='text-sm'
+              dangerouslySetInnerHTML={{
+                __html: compile2html(dtask.tasks.map((t) => (t.done ? '- [x] ' : '- [ ] ') + t.taskname).join('\n')),
+              }}>
+            </div>:
             <div className='pt-2 text-skblack-light text-lg'>
               (No tasks registered)
             </div>
