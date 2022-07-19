@@ -35,7 +35,7 @@ export default function NonEditableEditor({ dtask }:{ dtask: DayTask },
         ) :
           <div>
             <div>
-              <TaskAnalysisPanel dtask={dtask}/>
+              <TaskAnalysisPanel dtask={dtask} onTaskClick={() => {}}/>
             </div>
             <div className='mt-4'>
               <Preview rawmd={dtask.note_md} />

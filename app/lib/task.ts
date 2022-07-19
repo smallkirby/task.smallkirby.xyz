@@ -57,6 +57,29 @@ export const rawmd2tasks = (rawmd: string): Task[] => {
   return tasks;
 };
 
+export const updateSingleTask = (dtask: DayTask, task: Task): DayTask => {
+  const lines = dtask.note_md.split('\n');
+  const targetLineIndex = lines.findIndex((line) => {
+    if (line.trim().startsWith('- [x] ') || line.trim().startsWith('- [ ] ')) {
+      if (line.trim().substring(6) === task.taskname.trim()) {
+        return true;
+      }
+    }
+    return false;
+  });
+
+  if (targetLineIndex !== -1) {
+    if (task.done) {
+      lines[targetLineIndex] = `- [x] ${task.taskname}`;
+    } else {
+      lines[targetLineIndex] = `- [ ] ${task.taskname}`;
+    }
+  }
+  dtask.note_md = lines.join('\n');
+  dtask.tasks = rawmd2tasks(dtask.note_md);
+  return dtask;
+};
+
 export const cachedOrNewer = (cached: NoteCahe, remote: DayTask): string => {
   if (cached.savedAt.getTime() > remote.updatedAt.getTime()) {
     console.log('Using local cache');

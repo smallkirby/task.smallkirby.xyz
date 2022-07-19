@@ -2,8 +2,10 @@ import { ClientOnly } from 'remix-utils';
 import type { EditorCallbacks } from './innerEditor.client';
 import InnerEditor from './innerEditor.client';
 import { Links } from '@remix-run/react';
-import type { DayTask } from '../../typings/task';
-import { cachedOrNewer, fetchLatestTask, pushTodaysTask, rawmd2tasks, todaysDayID } from '../../lib/task';
+import type { DayTask, Task } from '../../typings/task';
+import {
+  cachedOrNewer, fetchLatestTask, pushTodaysTask, rawmd2tasks, todaysDayID, updateSingleTask,
+} from '../../lib/task';
 import { useCallback, useRef, useState } from 'react';
 import { useEffect } from 'react';
 import { throttle } from 'lodash';
@@ -53,6 +55,13 @@ export default function Editor({ initialDtask = null, dontCache = false }:
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isDirtyRemote, dtask]);
+  const onTaskClick = useCallback((task: Task) => {
+    const clickedTask = dtask.tasks.find((t) => t === task);
+    if (!clickedTask) return;
+    setDtask({ ...updateSingleTask(dtask, { ...clickedTask, done: !clickedTask.done }) });
+    setIsDirty(true);
+    setIsDirtyRemote(true);
+  }, [dtask, setDtask]);
 
   useEffect(() => {
     if (!isDirtyRemote) setIndicatorStatus('synced');
@@ -151,7 +160,7 @@ export default function Editor({ initialDtask = null, dontCache = false }:
             ) :
               <div>
                 <div>
-                  <TaskAnalysisPanel dtask={dtask}/>
+                  <TaskAnalysisPanel dtask={dtask} onTaskClick={onTaskClick} />
                 </div>
                 <div className='mt-4'>
                   <Preview rawmd={dtask.note_md} />

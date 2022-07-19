@@ -1,8 +1,8 @@
 import { compile2html } from 'lib/markdown';
 import { useEffect, useState } from 'react';
-import type { DayTask } from 'typings/task';
+import type { DayTask, Task } from 'typings/task';
 
-export default function TaskList({ dtask }: {dtask: DayTask}) {
+export default function TaskList({ dtask, onTaskClick }: {dtask: DayTask, onTaskClick: (task: Task) => void}) {
   const [loaded, setLoaded] = useState(false);
 
   useEffect(() => {
@@ -10,6 +10,16 @@ export default function TaskList({ dtask }: {dtask: DayTask}) {
       setLoaded(true);
     }
   }, [dtask]);
+
+  const onClick = (e: React.MouseEvent<HTMLDivElement>) => {
+    const elm = e.target as HTMLLabelElement;
+    const htmlFor = elm.htmlFor;
+    if (!htmlFor || !htmlFor.startsWith('cbx_')) return;
+    const index = parseInt(elm.htmlFor.split('cbx_')[1] || '-1', 10);
+    if (index !== -1) {
+      onTaskClick(dtask.tasks[index]);
+    }
+  };
 
   return (
     <div className='w-full flex-col'>
@@ -19,6 +29,7 @@ export default function TaskList({ dtask }: {dtask: DayTask}) {
           {dtask.tasks.length !== 0 ?
             <div
               className='text-sm'
+              onClick={onClick}
               dangerouslySetInnerHTML={{
                 __html: compile2html(dtask.tasks.map((t) => (t.done ? '- [x] ' : '- [ ] ') + t.taskname).join('\n')),
               }}>

@@ -10,6 +10,7 @@ const processor = new MarkdownIt({
   linkify: true,
 }).use(markdownCheckbox, {
   liClass: 'task-list-item',
+  idPrefix: 'cbx_',
 }).use(markdownEmoji);
 
 export const compile2html = (md: string): string => {
