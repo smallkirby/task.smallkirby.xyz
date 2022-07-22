@@ -37,6 +37,8 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-node-
 
-      - name: 👨🏻‍💻 Deploy app to Fly.io
+      - name: 🪰 Prepare flyctl
         uses: superfly/flyctl-actions/setup-flyctl@master
+
+      - name: 🚀 Deploy apps to Fly.io
         run: flyctl deploy --remote-only
