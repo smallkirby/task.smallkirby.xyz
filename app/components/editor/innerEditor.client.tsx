@@ -12,6 +12,7 @@ import 'codemirror/addon/selection/active-line.js';
 import 'codemirror/addon/edit/closebrackets.js';
 import { emojiCompletion } from 'lib/cmemoji';
 import type { EmojiInstance } from 'lib/cmemoji';
+import { tabHandler } from 'lib/editor';
 require('codemirror/keymap/vim.js');
 require('codemirror/addon/hint/show-hint.js');
 require('../../lib/cmwrapper');
@@ -28,6 +29,10 @@ const editorConfig: EditorConfiguration = {
   keyMap: 'vim',
   autoCloseBrackets: true,
   foldGutter: true,
+  extraKeys: {
+    Enter: 'newlineAndIndentContinueMarkdownList',
+    Tab: tabHandler,
+  },
 };
 export interface EditorCallbacks {
   onChange: (value: string) => void;
