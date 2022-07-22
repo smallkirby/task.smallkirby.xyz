@@ -86,7 +86,6 @@ export default function Editor({ initialDtask = null, dontCache = false }:
         console.log('Failed to fetch emoji list.');
         return;
       }
-      console.log(res.data);
       setEmojiList(Object.keys(res.data).map((key) => (
         { name: key, url: res.data[key] }
       )));

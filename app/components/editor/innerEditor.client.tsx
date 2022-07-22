@@ -13,14 +13,14 @@ import 'codemirror/addon/edit/closebrackets.js';
 import { emojiCompletion } from 'lib/cmemoji';
 import type { EmojiInstance } from 'lib/cmemoji';
 import { tabHandler } from 'lib/editor';
+require('../../lib/codemirror-addon');
 require('codemirror/keymap/vim.js');
 require('codemirror/addon/hint/show-hint.js');
-require('../../lib/cmwrapper');
 
 const editorConfig: EditorConfiguration = {
   theme: 'wywiwya',
   lineNumbers: true,
-  mode: 'cmwrapper',
+  mode: 'cmtask',
   indentUnit: 2,
   smartIndent: true,
   indentWithTabs: false,
