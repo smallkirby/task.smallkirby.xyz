@@ -9,6 +9,9 @@ on:
     types:
       - completed
 
+env:
+  FLY_API_TOKEN: ${{secrets.FLY_API_TOKEN}}
+
 jobs:
   deploy:
     runs-on: ${{ matrix.os }}
