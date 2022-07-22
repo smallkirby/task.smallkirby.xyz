@@ -1,5 +1,5 @@
-import type { LoaderFunction, MetaFunction, LinksFunction } from '@remix-run/cloudflare';
-import { json } from '@remix-run/cloudflare';
+import type { LoaderFunction, MetaFunction, LinksFunction } from '@remix-run/node';
+import { json } from '@remix-run/node';
 import {
   Links,
   LiveReload,
@@ -38,19 +38,21 @@ export const links: LinksFunction = () => {
 };
 
 export const loader: LoaderFunction = () => {
+  console.log('hogehoge');
+  console.log(process.env.FB_APIKEY);
   const firebaseConfig = {
-    apiKey: FB_APIKEY,
-    authDomain: FB_AUTHDOMAIN,
-    projectId: FB_PROJECTID,
-    storageBucket: FB_STORAGEBUCKET,
-    messagingSenderId: FB_MESSAGINGSENDERID,
-    appId: FB_APPID,
-    measurementId: FB_MEASUREMENTID,
+    apiKey: process.env.FB_APIKEY,
+    authDomain: process.env.FB_AUTHDOMAIN,
+    projectId: process.env.FB_PROJECTID,
+    storageBucket: process.env.FB_STORAGEBUCKET,
+    messagingSenderId: process.env.FB_MESSAGINGSENDERID,
+    appId: process.env.FB_APPID,
+    measurementId: process.env.FB_MEASUREMENTID,
   };
 
   const config: GlobalConfig = {
     firebase: firebaseConfig,
-    NODE_ENV,
+    NODE_ENV: process.env.NODE_ENV,
   };
 
   return json(config);

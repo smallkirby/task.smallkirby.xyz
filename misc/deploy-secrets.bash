@@ -26,6 +26,6 @@ while IFS= read -r _line; do
   if [[ "${IGNORE_SECRETS[*]}" =~ $key ]]; then
     continue
   fi
-  echo "$value" | wrangler secret put "$key"
+  flyctl secrets set "$key=$value"
   echo "[+] Set $key"
 done < ".env"
