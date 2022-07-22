@@ -11,10 +11,9 @@
     "dev": "remix build && run-p dev:*",
     "dev:css": "run-p dev:css:*",
     "dev:css:all": "postcss styles --base styles --dir app/styles -w",
-    "dev:remix": "remix watch",
-    "dev:miniflare": "cross-env NODE_ENV=development miniflare ./build/index.js --watch --env .env",
-    "start": "cross-env NODE_ENV=production miniflare ./build/index.js",
-    "deploy": "wrangler publish",
+    "dev:remix": "remix dev",
+    "start": "remix-serve build",
+    "deploy": "fly deploy --remote-only",
     "emulate": "firebase emulators:start",
     "deploy-secret": "bash ./misc/deploy-secret.bash",
     "nirugiri": "bash ./misc/start-workspace.bash"
@@ -33,9 +32,9 @@
     "@mui/material": "^5.9.0",
     "@nivo/bar": "^0.79.1",
     "@nivo/core": "^0.79.0",
-    "@remix-run/cloudflare": "^1.6.1",
-    "@remix-run/cloudflare-workers": "^1.6.1",
+    "@remix-run/node": "^1.6.5",
     "@remix-run/react": "^1.6.1",
+    "@remix-run/serve": "^1.6.4",
     "@types/axios": "^0.14.0",
     "@types/codemirror": "^5.60.5",
     "@types/common-tags": "^1.8.1",
@@ -67,7 +66,6 @@
     "zustand": "^4.0.0-rc.1"
   },
   "devDependencies": {
-    "@cloudflare/workers-types": "^3.10.0",
     "@remix-run/dev": "^1.6.1",
     "@remix-run/eslint-config": "^1.6.1",
     "@types/codemirror": "^5.60.5",
