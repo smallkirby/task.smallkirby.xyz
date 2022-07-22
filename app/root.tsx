@@ -20,6 +20,8 @@ import styles from './styles/index.css';
 import showhint from 'codemirror/addon/hint/show-hint.css';
 import foldgutter from 'codemirror/addon/fold/foldgutter.css';
 import calendar from 'styles/calendar.css';
+import githubcode from 'highlight.js/styles/github-dark-dimmed.css';
+import preview from 'styles/preview.css';
 import Footer from 'components/common/Footer';
 
 export const links: LinksFunction = () => {
@@ -30,6 +32,8 @@ export const links: LinksFunction = () => {
     { rel: 'stylesheet', href: showhint },
     { rel: 'stylesheet', href: foldgutter },
     { rel: 'stylesheet', href: calendar },
+    { rel: 'stylesheet', href: githubcode },
+    { rel: 'stylesheet', href: preview },
   ];
 };
 
