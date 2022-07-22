@@ -38,8 +38,6 @@ export const links: LinksFunction = () => {
 };
 
 export const loader: LoaderFunction = () => {
-  console.log('hogehoge');
-  console.log(process.env.FB_APIKEY);
   const firebaseConfig = {
     apiKey: process.env.FB_APIKEY,
     authDomain: process.env.FB_AUTHDOMAIN,
