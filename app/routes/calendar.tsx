@@ -8,6 +8,7 @@ import { date2dayid, dayid2date } from 'lib/date';
 import type { TaskCalendarCallbacks } from 'components/calendar/TaskCalendar';
 import TaskAnalysisPane from 'components/task/TaskAnalysisPanel';
 import NavigateToTask from 'components/task/NavigateToTask';
+import PageWrapper from 'components/common/PageWrapper';
 
 export default function Calendar() {
   const navigate = useNavigate();
@@ -54,12 +55,14 @@ export default function Calendar() {
   }, [user, dayid]);
 
   return (
-    <div className="flex flex-col">
-      <TaskCalendar month={month} tasks={dtasks} callbacks={callbacks} />
-      <div className='mx-auto my-2'>
-        <NavigateToTask task={chosenTask} />
+    <PageWrapper>
+      <div className="flex flex-col pt-4">
+        <TaskCalendar month={month} tasks={dtasks} callbacks={callbacks} />
+        <div className='mx-auto my-2'>
+          <NavigateToTask task={chosenTask} />
+        </div>
+        <TaskAnalysisPane dtask={chosenTask}/>
       </div>
-      <TaskAnalysisPane dtask={chosenTask}/>
-    </div>
+    </PageWrapper>
   );
 };

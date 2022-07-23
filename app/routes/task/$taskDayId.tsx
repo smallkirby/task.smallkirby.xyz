@@ -6,6 +6,7 @@ import useStore from 'store';
 import TaskNotFound from 'components/task/TaskNotFound';
 import NonEditableEditor from 'components/editor/NonEditableEditor';
 import Loading from 'components/common/Loading';
+import PageWrapper from 'components/common/PageWrapper';
 
 export default function TaskPage() {
   const params = useParams();
@@ -34,7 +35,7 @@ export default function TaskPage() {
   }, [user]);
 
   return (
-    <div>
+    <PageWrapper>
       {user === 'pending' ?
         <Loading />:
         <div>
@@ -48,6 +49,6 @@ export default function TaskPage() {
           }
         </div>
       }
-    </div>
+    </PageWrapper>
   );
 };

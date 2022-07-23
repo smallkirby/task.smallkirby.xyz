@@ -2,6 +2,7 @@ import useStore from '../store';
 import LoginBox from '../components/login/LoginBox';
 import { useEffect } from 'react';
 import { useNavigate } from '@remix-run/react';
+import PageWrapper from 'components/common/PageWrapper';
 
 export default function Login() {
   const { user, pendingRedirect, clearPendingRedirect } = useStore();
@@ -17,11 +18,11 @@ export default function Login() {
   }, [user, navigate, clearPendingRedirect]);
 
   return (
-    <div>
+    <PageWrapper>
       {user === null ?
         <LoginBox /> :
         null
       }
-    </div>
+    </PageWrapper>
   );
 };

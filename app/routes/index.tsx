@@ -3,6 +3,7 @@ import Editor from 'components/editor/Editor';
 import { rawmd2tasks } from 'lib/task';
 import type { DayTask } from 'typings/task';
 import { DEFAULT_DTASK } from 'lib/task';
+import TopAbstraction from 'components/index/TopAbstraction';
 
 const defaultMdContent = stripIndent`
   # task.smallkirby.xyz
@@ -32,7 +33,10 @@ export default function Index() {
   };
 
   return (
-    <div>
+    <div className='mt-20'>
+      <div className='mb-20'>
+        <TopAbstraction />
+      </div>
       <Editor initialDtask={defaultDtask} dontCache={true} />
     </div>
   );

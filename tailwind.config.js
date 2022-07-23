@@ -6,6 +6,9 @@ module.exports = {
   ],
   theme: {
     extend: {
+      fontFamily: {
+        'oswald': 'Oswald, sans-serif',
+      },
       colors: {
         skblack: {
           light: '#474747',

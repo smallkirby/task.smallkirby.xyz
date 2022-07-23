@@ -86,11 +86,9 @@ export default function App() {
         <Links />
       </head>
       <body className='bg-skblack pb-0'>
+        <Header />
         <div className='flex flex-col flex-shrink flex-grow flex-1 min-h-screen'>
-          <div className='mt-16 w-full md:w-2/3 mx-auto px-1 md:px-4 mb-20'>
-            <Header />
-            <Outlet/>
-          </div>
+          <Outlet/>
           <Footer />
         </div>
         <ScrollRestoration />

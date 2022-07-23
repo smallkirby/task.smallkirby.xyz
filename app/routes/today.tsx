@@ -5,6 +5,7 @@ import Editor from 'components/editor/Editor';
 import useStore from 'store';
 import { useNavigate } from '@remix-run/react';
 import Loading from 'components/common/Loading';
+import PageWrapper from 'components/common/PageWrapper';
 
 export default function Today() {
   const [restoredTask, setRestoredTask] = useState<DayTask | null>(null);
@@ -35,11 +36,11 @@ export default function Today() {
   }, [user, navigate, setPendingRedirect]);
 
   return (
-    <div>
+    <PageWrapper>
       {restoredTask === null ?
         <Loading /> :
         <Editor initialDtask={restoredTask} />
       }
-    </div>
+    </PageWrapper>
   );
 };
