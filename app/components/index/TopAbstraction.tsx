@@ -24,7 +24,7 @@ export default function TopAbstraction() {
             <p>By the way, I believe dog is cute than cat.</p>
           </div>
 
-          <div>
+          <div className="text-center md:text-left">
             <button
               className="mx-auto px-8 py-3 rounded-lg drop-shadow-2xl
             text-xl bg-skwhite text-skblack font-bold
@@ -38,15 +38,15 @@ export default function TopAbstraction() {
 
       <div
         className="md:w-1/2 relative overflow-y-hidden overflow-x-visible
-        h-[30rem] md:h-[62rem] py-4 pl-8 w-screen rounded-l-3xl"
+        h-[27rem] md:h-[62rem] py-4 md:pl-8 w-screen rounded-l-3xl"
       >
         <div
           style={{ backgroundImage: 'url("/img/3rd/free/penki-splash.jpg")' }}
           className="drop-shadow-2xl blur-md brightness-50 z-0 left-0 h-full"
         />
-        <div className="top-0 left-0 absolute w-full pt-16 pl-12 pr-10 md:pl-20">
+        <div className="top-0 left-0 absolute w-full pt-12 md:pt-16 px-4 md:pr-10 md:pl-20">
           <img src='/img/exp-diary.png' alt='example diary'
-            className="w-full rounded-lg"
+            className="rounded-lg"
           />
         </div>
       </div>

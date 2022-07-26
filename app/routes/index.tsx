@@ -11,7 +11,7 @@ export default function Index() {
       <div className='mt-40 mb-20'>
         <BasicDescription />
       </div>
-      <div className='mt-80 mb-20'>
+      <div className='mt-20 md:mt-80 mb-20'>
         <TryEditor />
       </div>
     </div>

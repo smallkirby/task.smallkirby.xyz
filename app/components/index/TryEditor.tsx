@@ -45,12 +45,12 @@ export default function TryEditor() {
 
   return (
     <div>
-      <div className='text-4xl md:text-7xl font-oswald font-bold leading-relaxed mx-auto text-center mb-20'>
-        <span className='text-skred mr-8'>Try</span>
-        <span className='mr-8'>it</span>
-        <span className='text-skgreen-light'>by yourself!</span>
+      <div className='text-4xl md:text-7xl font-oswald font-bold leading-relaxed mx-auto text-center mb-10 md:mb-20'>
+        <span className='text-skred mr-4 md:mr-8'>Try</span>
+        <span className='mr-4 md:mr-8'>it</span>
+        <span className='text-skgreen-light'>by yourself...</span>
       </div>
-      <div className='w-full md:w-2/3 mx-4 md:mx-auto'>
+      <div className='w-full md:w-2/3 md:mx-auto px-4'>
         <Editor initialDtask={defaultDtask} dontCache={true} mockSave={true} />
       </div>
     </div>
