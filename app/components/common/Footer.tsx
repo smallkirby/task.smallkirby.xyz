@@ -24,7 +24,7 @@ export default function Footer() {
           <div className="text-lg mb-1">
             <p>Legal</p>
           </div>
-          <div className="text-gray-400 flex flex-col ml-3">
+          <div className="text-gray-400 flex flex-col">
             <div>
               <a href="/privacy">
                 Privacy
@@ -39,11 +39,11 @@ export default function Footer() {
         </div>
 
         {/* Follow us */}
-        <div className="flex flex-col text-gray-300 md:mx-12 mb-4 md:mb-2">
+        <div className="flex flex-col text-gray-300 ml-8 md:mx-12 mb-4 md:mb-2">
           <div className="text-lg mb-1">
             <p>Follow Us</p>
           </div>
-          <div className="text-gray-400 ml-3">
+          <div className="text-gray-400">
             <div className="mb-1">
               <a href="https://github.com/smallkirby/task.smallkirby.xyz"
                 className="flex" target="_blank" rel="noreferrer"
