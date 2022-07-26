@@ -19,13 +19,14 @@ import EditorToolBar from './editorToolBar';
 import type { DirtySyncStatus } from './button/dirtyIndicator';
 import type { EmojiInstance } from 'lib/cmemoji';
 import axios from 'axios';
+import { Element, scroller } from 'react-scroll';
 
 const THROTTLE_MS = 500; // 500ms
 const LOCAL_SAVECACHE_MS = 1000 * 5; // 5s
 const REMOTE_SAVE_MS = 1000 * 10; // 10s
 
-export default function Editor({ initialDtask = null, dontCache = false }:
-  { initialDtask?: DayTask | null, dontCache?: boolean },
+export default function Editor({ initialDtask = null, dontCache = false, mockSave = false }:
+  { initialDtask?: DayTask | null, dontCache?: boolean, mockSave?: boolean },
 ) {
   const { user } = useStore();
   const [isDirty, setIsDirty] = useState(false);
@@ -135,15 +136,24 @@ export default function Editor({ initialDtask = null, dontCache = false }:
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const onSaveClick = async () => {
+  const onSaveClick = useCallback(async () => {
     setIndicatorStatus('syncing');
+    if (mockSave) {
+      setIndicatorStatus('synced');
+      return;
+    }
     const updatedAt = await pushTodaysTask(dtask);
     removeNoteCache(dtask.day_id);
     setDtask({ ...dtask, updatedAt });
     setIndicatorStatus('synced');
-  };
+  }, [dtask, setDtask, setIndicatorStatus, mockSave]);
 
   const onSwitchModeClick = () => {
+    scroller.scrollTo('editor', {
+      duration: 500,
+      offset: -80,
+      smooth: true,
+    });
     setMode(mode === 'edit' ? 'view' : 'edit');
   };
 
@@ -155,6 +165,7 @@ export default function Editor({ initialDtask = null, dontCache = false }:
         <Loading /> :
         <div className='w-full'>
           <div>
+            <Element name='editor' />
             <EditorToolBar dtask={dtask} mode={mode} indStatus={indicatorStatus}
               callbacks={{
                 onSaveClick,
