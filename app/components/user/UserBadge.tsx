@@ -30,7 +30,7 @@ export default function UserBadge() {
 
   return (
     <div className='pt-0 mt-0'>
-      <Button className='my-auto' onClick={handleClick} id='user-badge'
+      <Button onClick={handleClick} id='user-badge'
         aria-controls={open ? 'user-badge' : undefined}
         aria-haspopup='true'
         aria-expanded={open ? 'true' : undefined}
@@ -41,10 +41,10 @@ export default function UserBadge() {
         {fbuser === null || fbuser === 'pending' ?
           <FontAwesomeIcon
             icon={faQuestion}
-            className='text-skwhite border-2 border-skblack-light rounded-full p-2 h-4 w-4'
+            className='text-skwhite border-2 border-skblack-light rounded-full p-2 h-3 w-3'
           /> :
           <img src={fbuser.photoURL || ''} alt={fbuser.displayName || ''}
-            className={'h-6 md:h-8 rounded-full'}
+            className={'h-7 rounded-full'}
           />
         }
       </Button>

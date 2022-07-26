@@ -8,13 +8,13 @@ export default function Header() {
   return (
     <div>
       <header
-        className="fixed top-0 left-0 py-2 px-6 w-screen h-14 z-40 border-b-[1px] border-skblack-light
+        className="fixed top-0 left-0 py-2 pl-2 md:pl-4 w-screen h-14 z-40 border-b-[1px] border-skblack-light
           bg-skblack flex justify-between
         "
       >
         <div className='flex flex-shrink justify-items-center'>
-          <button className="h-full mr-4 md:mr-8" onClick={() => navigate('/')}>
-            <img src="/img/logo.png" alt="logo" className="h-6 md:h-8" />
+          <button className="h-full mr-4 md:mr-8 mt-1" onClick={() => navigate('/')}>
+            <img src="/img/logo.png" alt="logo" className="h-8 md:h-9 rounded-2xl" />
           </button>
 
           <div className='text-sm md:text-lg my-auto border-skblack-light pt-2
@@ -55,7 +55,7 @@ export default function Header() {
           </div>
         </div>
 
-        <div className='flex flex-shrink'>
+        <div className='flex flex-shrink h-10 overflow-hidden'>
           <UserBadge />
         </div>
       </header>
