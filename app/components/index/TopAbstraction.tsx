@@ -1,4 +1,15 @@
+import { useNavigate } from '@remix-run/react';
+import useStore from 'store';
+
 export default function TopAbstraction() {
+  const navigate = useNavigate();
+  const { setPendingRedirect } = useStore();
+
+  const onGetStarted = () => {
+    setPendingRedirect('/today');
+    navigate('/login');
+  };
+
   return (
     <div className="flex flex-col md:flex-row md:pt-4">
       <div className="md:w-1/2 md:ml-20 mt-8 mb-8 flex flex-col px-4 md:px-auto">
@@ -29,6 +40,7 @@ export default function TopAbstraction() {
               className="mx-auto px-8 py-3 rounded-lg drop-shadow-2xl
             text-xl bg-skwhite text-skblack font-bold
             hover:bg-skwhite-dark"
+              onClick={onGetStarted}
             >
               Get Started
             </button>
